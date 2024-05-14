@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "shop.apps.ShopConfig",
     'rest_framework',
+    'rest_framework_swagger',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [

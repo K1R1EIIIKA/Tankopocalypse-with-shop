@@ -5,13 +5,25 @@ from shop.models import Color, Rarity, Item, Skin, CartItem, Cart, Order
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'hex_code')
 
 
 class RaritySerializer(serializers.ModelSerializer):
+    color_id = serializers.PrimaryKeyRelatedField(queryset=Color.objects.all(), source='color', write_only=True,
+                                                  required=False)
+    color = ColorSerializer(read_only=True)
+
     class Meta:
         model = Rarity
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'color_id', 'color')
+
+    def create(self, validated_data):
+        color_id = validated_data.pop('color_id', None)
+        rarity = Rarity.objects.create(**validated_data)
+        if color_id:
+            rarity.color = color_id
+            rarity.save()
+        return rarity
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -52,4 +64,3 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ('id', 'user', 'items')
-

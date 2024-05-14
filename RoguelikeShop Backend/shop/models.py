@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Color(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Название')
-    hex_code = models.CharField(max_length=9, verbose_name='HEX-код')
+    name = models.CharField(max_length=50, verbose_name='Название', null=False, blank=False)
+    hex_code = models.CharField(max_length=9, verbose_name='HEX-код', null=False, blank=False)
 
     def __str__(self):
         return self.name

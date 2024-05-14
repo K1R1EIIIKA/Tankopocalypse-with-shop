@@ -1,0 +1,33 @@
+from django.db import models
+
+from shop.models import Item, Skin
+
+
+class UserItem(models.Model):
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='Предмет')
+    count = models.IntegerField(verbose_name='Количество')
+
+    @property
+    def price(self):
+        return self.item.price * self.count
+
+    def __str__(self):
+        return str(self.count) + 'x ' + self.item.name
+
+    class Meta:
+        verbose_name = 'Предмет пользователя'
+        verbose_name_plural = 'Предметы пользователей'
+
+
+class UserInfo(models.Model):
+    user = models.OneToOneField('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
+    balance = models.FloatField(default=0, verbose_name='Баланс')
+    items = models.ManyToManyField(UserItem, verbose_name='Предметы')
+
+    def __str__(self):
+        return self.user.username + ' (' + str(self.balance) + ')'
+
+    class Meta:
+        verbose_name = 'Информация о пользователе'
+        verbose_name_plural = 'Информация о пользователях'

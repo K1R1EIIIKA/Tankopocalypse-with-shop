@@ -27,19 +27,42 @@ class RaritySerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    rarity = RaritySerializer()
+    rarity_id = serializers.PrimaryKeyRelatedField(queryset=Rarity.objects.all(), source='rarity', write_only=True,
+                                                   required=False)
+    rarity = RaritySerializer(read_only=True)
 
     class Meta:
         model = Item
-        fields = ('id', 'name', 'price', 'rarity')
+        fields = ('id', 'name', 'description', 'price', 'rarity', 'rarity_id')
+
+    def create(self, validated_data):
+        rarity_id = validated_data.pop('rarity_id', None)
+        item = Item.objects.create(**validated_data)
+        if rarity_id:
+            item.rarity = rarity_id
+            item.save()
+        return item
 
 
 class SkinSerializer(serializers.ModelSerializer):
-    color = ColorSerializer()
+    color_id = serializers.PrimaryKeyRelatedField(queryset=Color.objects.all(), source='color', write_only=True,
+                                                  required=False)
+    color = ColorSerializer(read_only=True)
+    rarity_id = serializers.PrimaryKeyRelatedField(queryset=Rarity.objects.all(), source='rarity', write_only=True,
+                                                    required=False)
+    rarity = RaritySerializer(read_only=True)
 
     class Meta:
         model = Skin
-        fields = ('id', 'name', 'price', 'color')
+        fields = ('id', 'name', 'description', 'price', 'rarity', 'rarity_id', 'color', 'color_id')
+
+    def create(self, validated_data):
+        color_id = validated_data.pop('color_id', None)
+        skin = Skin.objects.create(**validated_data)
+        if color_id:
+            skin.color = color_id
+            skin.save()
+        return skin
 
 
 class CartItemSerializer(serializers.ModelSerializer):

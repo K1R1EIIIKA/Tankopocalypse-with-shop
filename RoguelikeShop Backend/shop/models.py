@@ -76,10 +76,10 @@ class Cart(models.Model):
 
     @property
     def items_count(self):
-        return len(self.items.all())
+        return sum([item.count for item in self.items.all()])
 
     def __str__(self):
-        return 'Корзина №' + str(self.id) + ' (' + str(self.items_count) + ' items)'
+        return 'Корзина №' + str(self.id) + ' (' + str(self.items_count) + ' товаров)'
 
     class Meta:
         verbose_name = 'Корзина'
@@ -97,10 +97,10 @@ class Order(models.Model):
 
     @property
     def items_count(self):
-        return len(self.items.all())
+        return sum([item.count for item in self.items.all()])
 
     def __str__(self):
-        return 'Заказ №' + str(self.id) + ' (' + str(self.items.count()) + ' items)'
+        return 'Заказ №' + str(self.id) + ' (' + str(self.items.count()) + ' товаров)'
 
     class Meta:
         verbose_name = 'Заказ'

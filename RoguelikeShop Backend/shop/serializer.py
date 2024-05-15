@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import fields, serializers
 from shop.models import Color, Rarity, Item, Skin, CartItem, Cart, Order
 
@@ -49,7 +51,7 @@ class SkinSerializer(serializers.ModelSerializer):
                                                   required=False)
     color = ColorSerializer(read_only=True)
     rarity_id = serializers.PrimaryKeyRelatedField(queryset=Rarity.objects.all(), source='rarity', write_only=True,
-                                                    required=False)
+                                                   required=False)
     rarity = RaritySerializer(read_only=True)
 
     class Meta:
@@ -66,24 +68,54 @@ class SkinSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-    item = ItemSerializer()
+    item_id = serializers.PrimaryKeyRelatedField(queryset=Item.objects.all(), source='item', write_only=True,
+                                                 required=False)
+    item = ItemSerializer(read_only=True)
 
     class Meta:
         model = CartItem
-        fields = ('id', 'item', 'count')
+        fields = ('id', 'item', 'count', 'item_id')
+
+    def create(self, validated_data):
+        item_id = validated_data.pop('item_id', None)
+        cart_item = CartItem.objects.create(**validated_data)
+        if item_id:
+            cart_item.item = item_id
+            cart_item.save()
+        return cart_item
 
 
 class CartSerializer(serializers.ModelSerializer):
-    items = CartItemSerializer(many=True)
+    items = CartItemSerializer(many=True, read_only=True)
+    items_json = serializers.JSONField(write_only=True)
 
     class Meta:
         model = Cart
-        fields = ('id', 'user', 'items', 'total_price', 'items_count')
+        fields = ('id', 'user', 'items', 'items_json', 'total_price', 'items_count')
+
+    def create(self, validated_data):
+        items_json = validated_data.pop('items_json', [])
+        items_list = [item['id'] for item in items_json['items']]
+        cart = Cart.objects.create(**validated_data)
+        for item_id in items_list:
+            cart.items.add(CartItem.objects.get(id=item_id))
+        return cart
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    items = CartItemSerializer(many=True)
+    items = CartItemSerializer(many=True, read_only=True)
+    items_json = serializers.JSONField(write_only=True)
+    created_at = fields.DateTimeField(read_only=True)
 
     class Meta:
         model = Order
-        fields = ('id', 'user', 'items')
+        fields = ('id', 'user', 'items', 'items_json', 'total_price', 'items_count', 'created_at')
+
+    def create(self, validated_data):
+        items_json = validated_data.pop('items_json', [])
+        items_list = [item['id'] for item in items_json['items']]
+        order = Order.objects.create(**validated_data)
+        order.created_at = datetime.now()
+        for item_id in items_list:
+            order.items.add(CartItem.objects.get(id=item_id))
+        return order

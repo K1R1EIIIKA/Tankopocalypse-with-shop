@@ -3,6 +3,18 @@ from django.db import models
 from shop.models import Item, Skin
 
 
+class Role(models.Model):
+    name = models.CharField(max_length=50, verbose_name='Название')
+    name_ru = models.CharField(max_length=50, verbose_name='Название (рус.)')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Роль'
+        verbose_name_plural = 'Роли'
+
+
 class UserItem(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='Предмет')
@@ -22,6 +34,7 @@ class UserItem(models.Model):
 
 class UserInfo(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль', null=True)
     balance = models.FloatField(default=0, verbose_name='Баланс')
     items = models.ManyToManyField(UserItem, verbose_name='Предметы')
 

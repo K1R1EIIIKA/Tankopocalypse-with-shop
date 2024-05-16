@@ -1,14 +1,17 @@
-from django import urls
-
-from shop.views import ColorListAPIView, RarityListAPIView, ItemListAPIView, SkinListAPIView, CartListAPIView, \
-    OrderListAPIView, CartItemListAPIView
+from django.urls import path
+from .views import ColorListCreate, ColorRetrieveUpdateDestroy, RarityListCreate, RarityRetrieveUpdateDestroy, \
+    ItemListCreate, ItemRetrieveUpdateDestroy, SkinListCreate, SkinRetrieveUpdateDestroy, CartItemListCreate, \
+    CartItemRetrieveUpdateDestroy
 
 urlpatterns = [
-    urls.path('color/', ColorListAPIView.as_view(), name='color-list'),
-    urls.path('rarity/', RarityListAPIView.as_view(), name='rarity-list'),
-    urls.path('item/', ItemListAPIView.as_view(), name='item-list'),
-    urls.path('skin/', SkinListAPIView.as_view(), name='skin-list'),
-    urls.path('cart-item/', CartItemListAPIView.as_view(), name='cart-item-list'),
-    urls.path('cart/', CartListAPIView.as_view(), name='cart-list'),
-    urls.path('order/', OrderListAPIView.as_view(), name='order-list'),
+    path('colors/', ColorListCreate.as_view(), name='color-list'),
+    path('colors/<int:pk>/', ColorRetrieveUpdateDestroy.as_view(), name='color-detail'),
+    path('rarities/', RarityListCreate.as_view(), name='rarity-list'),
+    path('rarities/<int:pk>/', RarityRetrieveUpdateDestroy.as_view(), name='rarity-detail'),
+    path('items/', ItemListCreate.as_view(), name='item-list'),
+    path('items/<int:pk>/', ItemRetrieveUpdateDestroy.as_view(), name='item-detail'),
+    path('skins/', SkinListCreate.as_view(), name='skin-list'),
+    path('skins/<int:pk>/', SkinRetrieveUpdateDestroy.as_view(), name='skin-detail'),
+    path('cart-items/', CartItemListCreate.as_view(), name='cart-item-list'),
+    path('cart-items/<int:pk>/', CartItemRetrieveUpdateDestroy.as_view(), name='cart-item-detail'),
 ]

@@ -1,40 +1,58 @@
 from rest_framework import generics
-
-from shop.models import Item, Skin, Cart, Order, Color, Rarity, CartItem
-from shop.serializer import ItemSerializer, SkinSerializer, CartSerializer, OrderSerializer, ColorSerializer, \
-    RaritySerializer, CartItemSerializer
+from .models import Color, Rarity, Item, Skin, CartItem
+from shop.serializer import ColorSerializer, RaritySerializer, ItemSerializer, SkinSerializer, CartItemSerializer
 
 
-class ColorListAPIView(generics.ListCreateAPIView):
+class ColorListCreate(generics.ListCreateAPIView):
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
 
 
-class RarityListAPIView(generics.ListCreateAPIView):
+class ColorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Color.objects.all()
+    serializer_class = ColorSerializer
+    http_method_names = ['get', 'put', 'delete']
+
+
+class RarityListCreate(generics.ListCreateAPIView):
     queryset = Rarity.objects.all()
     serializer_class = RaritySerializer
 
 
-class ItemListAPIView(generics.ListCreateAPIView):
+class RarityRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Rarity.objects.all()
+    serializer_class = RaritySerializer
+    http_method_names = ['get', 'put', 'delete']
+
+
+class ItemListCreate(generics.ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
 
-class SkinListAPIView(generics.ListCreateAPIView):
+class ItemRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    http_method_names = ['get', 'put', 'delete']
+
+
+class SkinListCreate(generics.ListCreateAPIView):
     queryset = Skin.objects.all()
     serializer_class = SkinSerializer
 
 
-class CartListAPIView(generics.ListCreateAPIView):
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
+class SkinRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Skin.objects.all()
+    serializer_class = SkinSerializer
+    http_method_names = ['get', 'put', 'delete']
 
 
-class OrderListAPIView(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-
-
-class CartItemListAPIView(generics.ListCreateAPIView):
+class CartItemListCreate(generics.ListCreateAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
+
+
+class CartItemRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    http_method_names = ['get', 'put', 'delete']

@@ -25,7 +25,7 @@ class Rarity(models.Model):
         verbose_name_plural = 'Редкости'
 
 
-class Item(models.Model):
+class BaseItem(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
     price = models.FloatField(verbose_name='Цена')
@@ -35,12 +35,18 @@ class Item(models.Model):
         return self.name
 
     class Meta:
+        abstract = True
+
+
+class Item(BaseItem):
+    class Meta:
         verbose_name = 'Предмет'
         verbose_name_plural = 'Предметы'
 
 
-class Skin(Item):
+class Skin(BaseItem):
     color = models.ForeignKey(Color, on_delete=models.CASCADE, verbose_name='Цвет')
+    only_one = models.BooleanField(verbose_name='Только один', default=False)
 
     def __str__(self):
         return self.name + ' (' + self.color.name + ')'
@@ -64,6 +70,22 @@ class CartItem(models.Model):
     class Meta:
         verbose_name = 'Предмет в корзине'
         verbose_name_plural = 'Предметы в корзине'
+
+
+class CartSkin(models.Model):
+    skin = models.ForeignKey(Skin, on_delete=models.CASCADE, verbose_name='Скин')
+    count = models.IntegerField(verbose_name='Количество')
+
+    @property
+    def price(self):
+        return self.skin.price * self.count
+
+    def __str__(self):
+        return str(self.count) + 'x ' + self.skin.name
+
+    class Meta:
+        verbose_name = 'Скин в корзине'
+        verbose_name_plural = 'Скины в корзине'
 
 
 class Cart(models.Model):

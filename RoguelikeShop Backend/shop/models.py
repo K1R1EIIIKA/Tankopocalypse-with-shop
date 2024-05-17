@@ -14,11 +14,12 @@ class Color(models.Model):
 
 
 class Rarity(models.Model):
+    index = models.IntegerField(verbose_name='Индекс', default=0)
     name = models.CharField(max_length=50, verbose_name='Название')
     color = models.ForeignKey(Color, on_delete=models.CASCADE, verbose_name='Цвет')
 
     def __str__(self):
-        return self.name
+        return self.name + ' - ' + str(self.index)
 
     class Meta:
         verbose_name = 'Редкость'

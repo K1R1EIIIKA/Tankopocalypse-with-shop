@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "shop.apps.ShopConfig",
     'rest_framework',
     'rest_framework_swagger',
+    'corsheaders',
     'drf_yasg',
 ]
 
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'RoguelikeShop.urls'
@@ -73,9 +75,11 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.permissions.AllowAny',
     ]
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 WSGI_APPLICATION = 'RoguelikeShop.wsgi.application'
 

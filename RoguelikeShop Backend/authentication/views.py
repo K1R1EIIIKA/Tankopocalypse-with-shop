@@ -72,7 +72,7 @@ class LogoutView(APIView):
 
         if not request.COOKIES.get('jwt'):
             raise AuthenticationFailed('Не авторизован')
-        
+
         response.delete_cookie('jwt')
 
         response.data = {

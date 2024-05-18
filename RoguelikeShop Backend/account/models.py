@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-from shop.models import Item, Skin
+from authentication.models import User
+from shop.models import Skin, Item
 
 
 class Role(models.Model):
@@ -16,7 +18,7 @@ class Role(models.Model):
 
 
 class UserItem(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='Предмет')
     count = models.IntegerField(verbose_name='Количество')
 
@@ -33,7 +35,7 @@ class UserItem(models.Model):
 
 
 class UserSkin(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     skin = models.ForeignKey(Skin, on_delete=models.CASCADE, verbose_name='Скин')
     count = models.IntegerField(verbose_name='Количество')
 
@@ -50,7 +52,7 @@ class UserSkin(models.Model):
 
 
 class UserInfo(models.Model):
-    user = models.OneToOneField('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль', null=True)
     balance = models.FloatField(default=0, verbose_name='Баланс')
     items = models.ManyToManyField(UserItem, verbose_name='Предметы')

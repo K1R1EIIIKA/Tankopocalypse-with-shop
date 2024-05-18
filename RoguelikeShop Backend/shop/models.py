@@ -1,5 +1,7 @@
 from django.db import models
 
+from authentication.models import User
+
 
 class Color(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название', null=False, blank=False)
@@ -90,7 +92,7 @@ class CartSkin(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     items = models.ManyToManyField(CartItem, verbose_name='Предметы')
 
     @property
@@ -110,7 +112,7 @@ class Cart(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     items = models.ManyToManyField(CartItem, verbose_name='Предметы')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 

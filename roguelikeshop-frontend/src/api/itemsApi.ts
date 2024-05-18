@@ -1,4 +1,4 @@
-import {getRarity, Rarity} from "./RaririesApi.ts";
+import {getRarity, Rarity} from "./RaritiesApi.ts";
 import axios from "axios";
 
 export interface Item {

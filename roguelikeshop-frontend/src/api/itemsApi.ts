@@ -28,7 +28,6 @@ export async function getItem(id: number) {
         const response = await axios.get(`http://localhost:8000/api/shop/items/${id}`);
         const item = response.data;
         item.rarity = await getRarity(item.rarity);
-        console.log(item)
         return response.data;
     } catch (error) {
         console.error('There was an error!', error);

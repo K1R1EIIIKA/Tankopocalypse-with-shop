@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
-import {getItems, Item} from "./api/itemsApi.ts";
-import ItemCard from "./components/ItemCard.tsx";
+import {getItems, Item} from "../api/itemsApi.ts";
+import ItemCard from "../components/ItemCard.tsx";
 
 export default function App() {
     const [items, setItems] = useState<Item[] | null>(null);

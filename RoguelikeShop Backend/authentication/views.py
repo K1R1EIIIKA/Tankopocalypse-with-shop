@@ -31,18 +31,56 @@ class LoginView(APIView):
         if not user.check_password(password):
             raise AuthenticationFailed('Неверный пароль')
 
-        payload = {
+        access_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(minutes=60),
+            'exp': datetime.utcnow() + timedelta(seconds=5),
             'iat': datetime.utcnow()
         }
 
-        token = jwt.encode(payload, 'secret', algorithm='HS256')
+        refresh_token_payload = {
+            'id': user.id,
+            'exp': datetime.utcnow() + timedelta(seconds=15),
+            'iat': datetime.utcnow()
+        }
+
+        access_token = jwt.encode(access_token_payload, 'secret', algorithm='HS256')
+        refresh_token = jwt.encode(refresh_token_payload, 'refresh_secret', algorithm='HS256')
 
         response = Response()
-        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.set_cookie(key='jwt', value=access_token, httponly=True)
+        response.set_cookie(key='refresh_jwt', value=refresh_token, httponly=True)
         response.data = {
-            'jwt': token
+            'jwt': access_token,
+            'refresh_jwt': refresh_token
+        }
+
+        return response
+
+
+class RefreshTokenView(APIView):
+    def post(self, request):
+        refresh_token = request.COOKIES.get('refresh_jwt')
+
+        if not refresh_token:
+            raise AuthenticationFailed('Не авторизован')
+
+        try:
+            payload = jwt.decode(refresh_token, 'refresh_secret', algorithms=['HS256'])
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Рефреш токен истек')
+
+        access_token_payload = {
+            'id': payload['id'],
+            'exp': datetime.utcnow() + timedelta(seconds=5),
+            'iat': datetime.utcnow()
+        }
+
+        new_access_token = jwt.encode(access_token_payload, 'secret', algorithm='HS256')
+
+        response = Response()
+        response.set_cookie(key='jwt', value=new_access_token, httponly=True)
+        response.data = {
+            'jwt': new_access_token
         }
 
         return response
@@ -70,10 +108,11 @@ class LogoutView(APIView):
     def post(self, request):
         response = Response()
 
-        if not request.COOKIES.get('jwt'):
+        if not request.COOKIES.get('jwt') or not request.COOKIES.get('refresh_jwt'):
             raise AuthenticationFailed('Не авторизован')
 
         response.delete_cookie('jwt')
+        response.delete_cookie('refresh_jwt')
 
         response.data = {
             'message': 'Успешный выход'

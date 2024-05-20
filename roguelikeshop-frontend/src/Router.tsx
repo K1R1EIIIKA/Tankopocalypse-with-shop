@@ -6,6 +6,7 @@ import ItemPage from "./pages/ItemPage.tsx";
 import Layout from "./components/Layout.tsx";
 import Login from "./pages/auth/Login.tsx";
 import User from "./pages/User.tsx";
+import Welcome from "./components/Welcome.tsx";
 
 export default function Router() {
     return (
@@ -16,6 +17,7 @@ export default function Router() {
                 <Route path="/items/:id" element={<Layout><ItemPage/></Layout>}/>
                 <Route path="/user" element={<Layout><User/></Layout>}/>
                 <Route path="/auth/login" element={<Layout><Login/></Layout>}/>
+                <Route path="/welcome" element={<Layout><Welcome/></Layout>}/>
             </Routes>
         </BrowserRouter>
     );

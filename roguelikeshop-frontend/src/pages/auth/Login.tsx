@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import {useState} from 'react';
 import {login} from "../../api/actions/authActions.ts";
 import {redirect} from "react-router-dom";
+import {useAppDispatch} from "../../app/hooks.ts";
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();

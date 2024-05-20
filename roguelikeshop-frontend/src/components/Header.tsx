@@ -1,9 +1,11 @@
 import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {RootState} from "@reduxjs/toolkit/query";
+// import {useSelector} from "react-redux";
+// import {RootState} from "@reduxjs/toolkit/query";
+import {useAppSelector} from "../app/hooks.ts";
 
 export default function Header() {
-    const user = useSelector((state: RootState) => state.auth.user);
+    // const user = useSelector((state: RootState) => state.auth.user);
+    const user = useAppSelector((state) => state.auth.user);
 
     return (
         <header>

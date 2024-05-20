@@ -33,13 +33,13 @@ class LoginView(APIView):
 
         access_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=5),
+            'exp': datetime.utcnow() + timedelta(seconds=3600),
             'iat': datetime.utcnow()
         }
 
         refresh_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=15),
+            'exp': datetime.utcnow() + timedelta(seconds=3600*24),
             'iat': datetime.utcnow()
         }
 
@@ -59,9 +59,9 @@ class LoginView(APIView):
 
 class RefreshTokenView(APIView):
     def post(self, request):
-        refresh_token = request.COOKIES.get('refresh_jwt')
+        refresh_token = request.data['refresh_jwt']
 
-        if not refresh_token:
+        if not refresh_token or refresh_token == 'undefined':
             raise AuthenticationFailed('Не авторизован')
 
         try:
@@ -71,7 +71,7 @@ class RefreshTokenView(APIView):
 
         access_token_payload = {
             'id': payload['id'],
-            'exp': datetime.utcnow() + timedelta(seconds=5),
+            'exp': datetime.utcnow() + timedelta(seconds=3600),
             'iat': datetime.utcnow()
         }
 

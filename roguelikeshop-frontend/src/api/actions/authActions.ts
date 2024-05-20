@@ -6,9 +6,10 @@ export const login = (email, password) => async dispatch => {
         const response = await axios.post('http://localhost:8000/api/auth/login', { email, password });
         const { jwt, refresh_jwt } = response.data;
 
-        // Сохранение токенов в куки
         document.cookie = `jwt=${jwt}; path=/`;
         document.cookie = `refresh_jwt=${refresh_jwt}; path=/`;
+        localStorage.setItem('jwt', jwt);
+        localStorage.setItem('refresh_jwt', refresh_jwt);
 
         dispatch(loginSuccess({ token: jwt, refreshToken: refresh_jwt }));
 
@@ -18,17 +19,44 @@ export const login = (email, password) => async dispatch => {
     }
 };
 
-export const loadUser = () => async (dispatch, getState) => {
+export const refreshToken = () => async dispatch => {
     try {
-        const token = getState().auth.token;
+        const refreshToken = document.cookie.split(';').map(cookie => cookie.trim()).find(cookie => cookie.startsWith('refresh_jwt='))?.split('=')[1];
+        console.log('refreshToken', refreshToken)
+        const response = await axios.post('http://localhost:8000/api/auth/refresh', { refresh_jwt: refreshToken });
+        const { jwt } = response.data;
+        //
+        // console.log('refreshToken', jwt, refresh_jwt);
+        // Сохранение токенов в куки
+        document.cookie = `jwt=${jwt}; path=/`;
+        // document.cookie = `refresh_jwt=${refresh_jwt}; path=/`;
+        localStorage.setItem('jwt', jwt);
+        // localStorage.setItem('refresh_jwt', refresh_jwt);
+        dispatch(loginSuccess({ token: jwt, refreshToken: refreshToken }));
+
+        dispatch(loadUser());
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const loadUser = () => async (dispatch) => {
+    try {
+        // const token = getState().auth.token;
+        const token = document.cookie.split(';').map(cookie => cookie.trim()).find(cookie => cookie.startsWith('jwt='))?.split('=')[1];
+
         console.log(token);
         if (token) {
             const response = await axios.get('http://localhost:8000/api/auth/user', { withCredentials: true });
-            console.log(response.data);
+            // console.log(response.data);
             dispatch(userLoaded(response.data));
         }
     } catch (error) {
-        console.error(error);
+        if (error.response.status === 403) {
+            // try refresh token
+
+            dispatch(refreshToken());
+        }
     }
 };
 

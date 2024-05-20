@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom/client'
 import Router from "./Router.tsx";
 import {Provider} from 'react-redux';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import store from "./api/store.ts";
 import axios from "axios";
+import {store} from "./app/store.ts";
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';

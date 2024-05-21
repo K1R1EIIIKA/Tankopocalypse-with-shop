@@ -23,4 +23,5 @@ urlpatterns = [
     path('cart-skins/', CartSkinListCreate.as_view(), name='cart-skin-list'),
     path('cart-skins/<int:pk>/', CartSkinRetrieveUpdateDestroy.as_view(), name='cart-skin-detail'),
     path('order/', OrderListCreate.as_view(), name='order-list'),
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
 ]

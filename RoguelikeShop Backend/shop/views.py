@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from account.models import UserItem, UserSkin
 from authentication.models import User
 from .models import Color, Rarity, Item, Skin, CartItem, CartSkin, Order, Cart
 from shop.serializer import ColorSerializer, RaritySerializer, ItemSerializer, SkinSerializer, CartItemSerializer, \
@@ -148,7 +149,7 @@ class RemoveFromCartView(APIView):
         except User.DoesNotExist:
             return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        cart = Cart.objects.filter(user=user, is_active=True).first()
+        cart = Cart.objects.filter(user=user).first()
         cart_item = CartItem.objects.filter(item=item, cart=cart).first()
 
         if cart_item:
@@ -160,3 +161,45 @@ class RemoveFromCartView(APIView):
                 cart_item.delete()
 
         return Response({'message': 'Item removed from cart'}, status=status.HTTP_200_OK)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CheckoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.data.get('user_id')
+
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        cart = Cart.objects.filter(user=user).first()
+
+        order = Order.objects.create(user=user)
+        order.items.set(cart.items.all())
+        order.skins.set(cart.skins.all())
+        order.save()
+
+        for item in cart.items.all():
+            user_item = UserItem.objects.filter(user=user, item=item.item).first()
+            if user_item:
+                user_item.count += item.count
+                user_item.save()
+            else:
+                UserItem.objects.create(user=user, item=item.item, count=item.count)
+
+        for skin in cart.skins.all():
+            user_skin = UserSkin.objects.filter(user=user, skin=skin.skin).first()
+            if user_skin:
+                user_skin.count += skin.count
+                user_skin.save()
+            else:
+                UserSkin.objects.create(user=user, skin=skin.skin, count=skin.count)
+
+        # cart.items.clear()
+        # cart.skins.clear()
+        cart.save()
+
+        return Response({'message': 'Order created'}, status=status.HTTP_200_OK)

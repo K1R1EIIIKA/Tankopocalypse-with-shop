@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {getItem} from "../api/shop/itemsApi.ts";
 import {Item} from "../api/shop/itemsApi.ts";
-import {addToCart, getCart} from "../api/shop/cart/cartApi.ts";
+import {addToCart} from "../api/shop/cart/cartApi.ts";
 
 export default function ItemPage() {
     const {id} = useParams<{ id: string }>();

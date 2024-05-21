@@ -20,7 +20,7 @@ class Role(models.Model):
 class UserItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='Предмет')
-    count = models.IntegerField(verbose_name='Количество')
+    count = models.IntegerField(verbose_name='Количество', default=1)
 
     @property
     def price(self):
@@ -37,7 +37,7 @@ class UserItem(models.Model):
 class UserSkin(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     skin = models.ForeignKey(Skin, on_delete=models.CASCADE, verbose_name='Скин')
-    count = models.IntegerField(verbose_name='Количество')
+    count = models.IntegerField(verbose_name='Количество', default=1)
 
     @property
     def price(self):
@@ -54,9 +54,9 @@ class UserSkin(models.Model):
 class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль', null=True)
-    balance = models.FloatField(default=0, verbose_name='Баланс')
-    items = models.ManyToManyField(UserItem, verbose_name='Предметы')
-    skins = models.ManyToManyField(UserSkin, verbose_name='Скины')
+    balance = models.DecimalField(default=0, verbose_name='Баланс', max_digits=10, decimal_places=2)
+    items = models.ManyToManyField(UserItem, verbose_name='Предметы', blank=True)
+    skins = models.ManyToManyField(UserSkin, verbose_name='Скины', blank=True)
 
     def __str__(self):
         return self.user.name + ' - ' + str(self.balance) + ' руб.'

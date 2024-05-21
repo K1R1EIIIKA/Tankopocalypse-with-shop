@@ -1,4 +1,7 @@
 from rest_framework import generics
+from rest_framework.response import Response
+
+from authentication.models import User
 from .models import Color, Rarity, Item, Skin, CartItem
 from shop.serializer import ColorSerializer, RaritySerializer, ItemSerializer, SkinSerializer, CartItemSerializer
 
@@ -56,3 +59,16 @@ class CartItemRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     http_method_names = ['get', 'put', 'delete']
+
+
+def add_to_cart(request):
+    if request.method == 'POST':
+        item_id = request.data['item_id']
+        user_id = request.data['user_id']
+        item = Item.objects.get(id=item_id)
+        user = User.objects.get(id=user_id)
+        cart_item = CartItem.objects.create(item=item, user=user)
+        cart_item.save()
+        return Response({'message': 'Item added to cart'})
+    else:
+        return Response({'message': 'Method not allowed'})

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { loginSuccess, userLoaded, logout } from '../reducers/authReducer';
+import {loginSuccess, userLoaded, logout, setLoading} from '../reducers/authReducer';
 
 export const login = (email, password) => async dispatch => {
     try {
@@ -36,27 +36,30 @@ export const refreshToken = () => async dispatch => {
 
         dispatch(loadUser());
     } catch (error) {
+        dispatch(logout());
         console.error(error);
     }
 }
 
 export const loadUser = () => async (dispatch) => {
+    dispatch(setLoading(true)); // Установить состояние загрузки в true перед загрузкой пользователя
     try {
-        // const token = getState().auth.token;
         const token = document.cookie.split(';').map(cookie => cookie.trim()).find(cookie => cookie.startsWith('jwt='))?.split('=')[1];
 
-        console.log(token);
         if (token) {
             const response = await axios.get('http://localhost:8000/api/auth/user', { withCredentials: true });
-            // console.log(response.data);
             dispatch(userLoaded(response.data));
+        } else {
+            dispatch(logout());
         }
     } catch (error) {
-        if (error.response.status === 403) {
-            // try refresh token
-
+        if (error.response && error.response.status === 403) {
             dispatch(refreshToken());
+        } else {
+            dispatch(logout());
         }
+    } finally {
+        dispatch(setLoading(false)); // Установить состояние загрузки в false после загрузки пользователя
     }
 };
 

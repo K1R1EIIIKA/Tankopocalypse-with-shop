@@ -33,13 +33,13 @@ class LoginView(APIView):
 
         access_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=3600),
+            'exp': datetime.utcnow() + timedelta(seconds=5),
             'iat': datetime.utcnow()
         }
 
         refresh_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=3600*24),
+            'exp': datetime.utcnow() + timedelta(seconds=10),
             'iat': datetime.utcnow()
         }
 
@@ -71,7 +71,7 @@ class RefreshTokenView(APIView):
 
         access_token_payload = {
             'id': payload['id'],
-            'exp': datetime.utcnow() + timedelta(seconds=3600),
+            'exp': datetime.utcnow() + timedelta(seconds=5),
             'iat': datetime.utcnow()
         }
 

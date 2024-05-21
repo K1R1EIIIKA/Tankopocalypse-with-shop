@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {loginSuccess, userLoaded, logout, setLoading} from '../reducers/authReducer';
+import {loginSuccess, userLoaded, logout, setLoading} from './authReducer.ts';
 
 export const login = (email, password) => async dispatch => {
     try {

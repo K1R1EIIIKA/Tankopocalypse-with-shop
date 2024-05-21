@@ -56,9 +56,10 @@ class UserInfo(models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name='Роль', null=True)
     balance = models.FloatField(default=0, verbose_name='Баланс')
     items = models.ManyToManyField(UserItem, verbose_name='Предметы')
+    skins = models.ManyToManyField(UserSkin, verbose_name='Скины')
 
     def __str__(self):
-        return self.user.username + ' (' + str(self.balance) + ')'
+        return self.user.name + ' - ' + str(self.balance) + ' руб.'
 
     class Meta:
         verbose_name = 'Информация о пользователе'

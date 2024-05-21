@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import {login} from "../../api/actions/authActions.ts";
-import {redirect, useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../app/hooks.ts";
+import {login} from "../../api/app/authActions.ts";
+import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../../api/app/hooks.ts";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault();
         dispatch(login(email, password));
         //redirect to user page

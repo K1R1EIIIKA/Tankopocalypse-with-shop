@@ -8,13 +8,15 @@ from rest_framework.views import APIView
 
 from authentication.models import User
 from authentication.serializers import UserSerializer
+from account.models import UserInfo
 
 
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        user_info = UserInfo.objects.create(user=serializer.save())
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -33,13 +35,13 @@ class LoginView(APIView):
 
         access_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=5),
+            'exp': datetime.utcnow() + timedelta(seconds=3600),
             'iat': datetime.utcnow()
         }
 
         refresh_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=10),
+            'exp': datetime.utcnow() + timedelta(seconds=3600*24),
             'iat': datetime.utcnow()
         }
 
@@ -71,7 +73,7 @@ class RefreshTokenView(APIView):
 
         access_token_payload = {
             'id': payload['id'],
-            'exp': datetime.utcnow() + timedelta(seconds=5),
+            'exp': datetime.utcnow() + timedelta(seconds=3600),
             'iat': datetime.utcnow()
         }
 

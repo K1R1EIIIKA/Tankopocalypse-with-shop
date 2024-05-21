@@ -94,6 +94,7 @@ class CartSkin(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     items = models.ManyToManyField(CartItem, verbose_name='Предметы')
+    skins = models.ManyToManyField(CartSkin, verbose_name='Скины')
 
     @property
     def total_price(self):
@@ -114,6 +115,7 @@ class Cart(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     items = models.ManyToManyField(CartItem, verbose_name='Предметы')
+    skins = models.ManyToManyField(CartSkin, verbose_name='Скины')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     @property

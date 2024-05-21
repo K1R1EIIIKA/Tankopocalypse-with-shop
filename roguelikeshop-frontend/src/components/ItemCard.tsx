@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import {Item} from "../api/itemsApi.ts";
+import {Item} from "../api/shop/itemsApi.ts";
 
 export default function ItemCard({ item }: { item: Item }) {
     return (

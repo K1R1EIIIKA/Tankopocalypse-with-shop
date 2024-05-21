@@ -5,7 +5,7 @@ import Router from "./Router.tsx";
 import {Provider} from 'react-redux';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import axios from "axios";
-import {store} from "./app/store.ts";
+import {store} from "./api/app/store.ts";
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';

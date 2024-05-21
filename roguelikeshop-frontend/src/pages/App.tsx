@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {getItems, Item} from "../api/itemsApi.ts";
+import {getItems, Item} from "../api/shop/itemsApi.ts";
 import ItemCard from "../components/ItemCard.tsx";
 
 export default function App() {

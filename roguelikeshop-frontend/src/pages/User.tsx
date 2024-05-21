@@ -1,4 +1,4 @@
-import {useAppSelector} from "../app/hooks.ts";
+import {useAppSelector} from "../api/app/hooks.ts";
 
 export default function User() {
     const user = useAppSelector((state) => state.auth.user);

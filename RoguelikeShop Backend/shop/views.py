@@ -1,9 +1,12 @@
+from django.http import Http404
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from authentication.models import User
-from .models import Color, Rarity, Item, Skin, CartItem
-from shop.serializer import ColorSerializer, RaritySerializer, ItemSerializer, SkinSerializer, CartItemSerializer
+from .models import Color, Rarity, Item, Skin, CartItem, CartSkin, Order, Cart
+from shop.serializer import ColorSerializer, RaritySerializer, ItemSerializer, SkinSerializer, CartItemSerializer, \
+    CartSkinSerializer, CartSerializer, OrderSerializer
 
 
 class ColorListCreate(generics.ListCreateAPIView):
@@ -59,6 +62,35 @@ class CartItemRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     http_method_names = ['get', 'put', 'delete']
+
+
+class CartSkinListCreate(generics.ListCreateAPIView):
+    queryset = CartSkin.objects.all()
+    serializer_class = CartSkinSerializer
+
+
+class CartSkinRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartSkin.objects.all()
+    serializer_class = CartSkinSerializer
+    http_method_names = ['get', 'put', 'delete']
+
+
+class CartDetail(generics.RetrieveAPIView):
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        queryset = Cart.objects.filter(user=user)
+        if queryset.exists():
+            return queryset.first()
+        else:
+            raise Http404("Cart not found")
+
+
+class OrderListCreate(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
 
 def add_to_cart(request):

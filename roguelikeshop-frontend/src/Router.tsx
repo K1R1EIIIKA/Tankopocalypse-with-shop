@@ -4,14 +4,14 @@ import App from "./pages/App.tsx";
 import Items from "./Items.tsx";
 import ItemPage from "./pages/ItemPage.tsx";
 import {Layout} from "./components/Layout.tsx";
-import Login from "./pages/auth/Login.tsx";
 import User from "./pages/User.tsx";
 import {useEffect} from "react";
-import {loadUser} from "./api/actions/authActions.ts";
-import {useAppDispatch} from "./app/hooks.ts";
-import Cart from "./pages/cart/Cart.tsx";
-import RequireAuth from "./components/RequireAuth.tsx";
+import {useAppDispatch} from "./api/app/hooks.ts";
+import CartPage from "./pages/cart/CartPage.tsx";
+import {loadUser} from "./api/app/authActions.ts";
 import RequireNotAuth from "./components/RequireNotAuth.tsx";
+import Login from "./pages/auth/Login.tsx";
+import RequireAuth from "./components/RequireAuth.tsx";
 
 export default function Router() {
     const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ export default function Router() {
                 </Route>
                 <Route element={<Layout><RequireAuth/></Layout>}>
                     <Route path="/user" element={<User/>}/>
-                    <Route path="/cart" element={<Cart/>}/>
+                    <Route path="/cart" element={<CartPage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

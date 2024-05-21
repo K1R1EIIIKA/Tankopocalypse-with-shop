@@ -14,6 +14,22 @@ export default function CartPage() {
         hasFetched.current = true;
     }, []);
 
+    const handleRemoveFromCart: (itemId: number) => () => void = (itemId) => () => {
+        removeFromCart(itemId).then(r => {
+            if (r) {
+                getCart().then((cart) => setCart(cart));
+            }
+        });
+    }
+
+    const handleAddToCart: (itemId: number) => () => void = (itemId) => () => {
+        addToCart(itemId).then(r => {
+            if (r) {
+                getCart().then((cart) => setCart(cart));
+            }
+        });
+    }
+
     return (
         <div>
             <h1>Cart</h1>
@@ -28,21 +44,8 @@ export default function CartPage() {
                                 <p>{cartItem.item.name}</p>
                                 <p>Count: {cartItem.count}</p>
                                 <p>Price: {cartItem.price}</p>
-                                <button onClick={() => {
-                                    removeFromCart(cartItem.item.id).then(r => {
-                                        if (r) {
-                                            getCart().then((cart) => setCart(cart));
-                                        }
-                                    });
-                                }}>Remove from cart</button>
-                                <button onClick={() => {
-                                    addToCart(cartItem.item.id).then(r => {
-                                        if (r) {
-                                            getCart().then((cart) => setCart(cart));
-                                        }
-                                    });
-                                }}>Add to cart
-                                </button>
+                                <button onClick={handleRemoveFromCart(cartItem.item.id)}>Remove from cart</button>
+                                <button onClick={handleAddToCart(cartItem.item.id)}>Add to cart</button>
                             </div>
                         ))}
                     </div>

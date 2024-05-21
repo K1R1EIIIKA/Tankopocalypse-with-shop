@@ -29,24 +29,22 @@ class SkinSerializer(serializers.ModelSerializer):
 class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        fields = '__all__'
+        fields = ['id', 'item', 'count', 'price']
 
 
 class CartSkinSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartSkin
-        fields = '__all__'
+        fields = ['id', 'skin', 'count', 'price']
 
 
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
-        fields = ['id', 'items', 'skins', 'items_count', 'total_price']
+        fields = ['id', 'items', 'skins', 'items_count', 'total_price', 'is_active', 'user']
 
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = '__all__'
-
-
+        fields = ['id', 'user', 'items', 'skins', 'total_price', 'created_at', 'items_count']

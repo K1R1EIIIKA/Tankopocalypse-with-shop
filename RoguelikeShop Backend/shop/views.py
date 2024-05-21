@@ -1,7 +1,10 @@
 from django.http import Http404
-from rest_framework import generics
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from authentication.models import User
 from .models import Color, Rarity, Item, Skin, CartItem, CartSkin, Order, Cart
@@ -93,14 +96,67 @@ class OrderListCreate(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
 
 
-def add_to_cart(request):
-    if request.method == 'POST':
-        item_id = request.data['item_id']
-        user_id = request.data['user_id']
-        item = Item.objects.get(id=item_id)
-        user = User.objects.get(id=user_id)
-        cart_item = CartItem.objects.create(item=item, user=user)
+@method_decorator(csrf_exempt, name='dispatch')
+class AddToCartView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        item_id = request.data.get('item_id')
+        user_id = request.data.get('user_id')
+
+        try:
+            item = Item.objects.get(id=item_id)
+            user = User.objects.get(id=user_id)
+        except Item.DoesNotExist:
+            return Response({'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+        except User.DoesNotExist:
+            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        print(item, user)
+        cart = Cart.objects.filter(user=user, is_active=True).first()
+        print(cart)
+
+        cart_item = CartItem.objects.filter(item=item, cart__user__cart=cart).first()
+        print(cart_item)
+
+        if cart_item:
+            cart_item.count += 1
+            cart_item.save()
+        else:
+            cart_item = CartItem.objects.create(item=item, count=1, cart=cart)
+            cart.items.add(cart_item)
+            cart.save()
+
         cart_item.save()
-        return Response({'message': 'Item added to cart'})
-    else:
-        return Response({'message': 'Method not allowed'})
+
+        return Response({'message': 'Item added to cart'}, status=status.HTTP_200_OK)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class RemoveFromCartView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        item_id = request.data.get('item_id')
+        user_id = request.data.get('user_id')
+
+        try:
+            item = Item.objects.get(id=item_id)
+            user = User.objects.get(id=user_id)
+        except Item.DoesNotExist:
+            return Response({'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+        except User.DoesNotExist:
+            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        cart = Cart.objects.filter(user=user, is_active=True).first()
+        cart_item = CartItem.objects.filter(item=item, cart=cart).first()
+
+        if cart_item:
+            cart_item.count -= 1
+            cart_item.save()
+
+            if cart_item.count == 0:
+                cart.items.remove(cart_item)
+                cart_item.delete()
+
+        return Response({'message': 'Item removed from cart'}, status=status.HTTP_200_OK)

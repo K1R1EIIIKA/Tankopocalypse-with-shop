@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {getCart, Cart, addToCart, removeFromCart, checkout} from "../../api/shop/cart/cartApi.ts";
+import {addToCart, Cart, checkout, getCart, removeFromCart} from "../../api/shop/cart/cartApi.ts";
 
 export default function CartPage() {
 	const [cart, setCart] = useState<Cart | null>(null);

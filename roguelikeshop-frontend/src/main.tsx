@@ -13,7 +13,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 const root = document.getElementById('root')
 
 ReactDOM.createRoot(root!).render(
-    <Provider store={store}>
-        <Router/>
-    </Provider>
+	<Provider store={store}>
+		<Router/>
+	</Provider>
 )

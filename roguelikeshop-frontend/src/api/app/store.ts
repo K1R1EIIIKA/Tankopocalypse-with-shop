@@ -1,10 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 import authReducer from './authReducer.ts';
 
 export const store = configureStore({
-    reducer: {
-        auth: authReducer,
-    },
+	reducer: {
+		auth: authReducer,
+	},
 });
 
 export type AppStore = typeof store

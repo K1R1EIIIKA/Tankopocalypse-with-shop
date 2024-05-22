@@ -16,28 +16,28 @@ import Logout from "./pages/auth/Logout.tsx";
 import Register from "./pages/auth/Register.tsx";
 
 export default function Router() {
-    const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(loadUser());
-    }, [dispatch]);
+	useEffect(() => {
+		dispatch(loadUser());
+	}, [dispatch]);
 
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Layout><App/></Layout>}/>
-                <Route path="/items" element={<Layout><Items/></Layout>}/>
-                <Route path="/items/:id" element={<Layout><ItemPage/></Layout>}/>
-                <Route element={<Layout><RequireNotAuth /></Layout>}>
-                    <Route path="/auth/login" element={<Login/>} />
-                    <Route path="/auth/register" element={<Register/>} />
-                </Route>
-                <Route element={<Layout><RequireAuth/></Layout>}>
-                    <Route path="/user" element={<User/>}/>
-                    <Route path="/cart" element={<CartPage/>}/>
-                    <Route path="/auth/logout" element={<Logout/>}/>
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Layout><App/></Layout>}/>
+				<Route path="/items" element={<Layout><Items/></Layout>}/>
+				<Route path="/items/:id" element={<Layout><ItemPage/></Layout>}/>
+				<Route element={<Layout><RequireNotAuth/></Layout>}>
+					<Route path="/auth/login" element={<Login/>}/>
+					<Route path="/auth/register" element={<Register/>}/>
+				</Route>
+				<Route element={<Layout><RequireAuth/></Layout>}>
+					<Route path="/user" element={<User/>}/>
+					<Route path="/cart" element={<CartPage/>}/>
+					<Route path="/auth/logout" element={<Logout/>}/>
+				</Route>
+			</Routes>
+		</BrowserRouter>
+	);
 }

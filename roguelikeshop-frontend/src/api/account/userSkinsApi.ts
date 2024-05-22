@@ -12,7 +12,7 @@ export interface UserSkin {
 
 export async function getUserSkins() {
 	try {
-		const response = await axios.get('http://localhost:8000/api/account/user-skins');
+		const response = await axios.get('http://localhost:8000/api/account/user-skins', {withCredentials: true});
 		const userSkins = response.data;
 		for (const userSkin of userSkins) {
 			userSkin.skin = await getSkin(userSkin.skin);
@@ -26,7 +26,7 @@ export async function getUserSkins() {
 
 export async function getUserSkin(id: number) {
 	try {
-		const response = await axios.get(`http://localhost:8000/api/account/user-skins/${id}`);
+		const response = await axios.get(`http://localhost:8000/api/account/user-skins/${id}`, {withCredentials: true});
 		const userSkin = response.data;
 		userSkin.skin = await getSkin(userSkin.skin);
 		return userSkin;

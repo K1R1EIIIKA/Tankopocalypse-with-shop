@@ -21,7 +21,7 @@ export default function ItemPage() {
 	}
 
 	const handleAddToCart: (itemId: number) => () => void = (itemId) => () => {
-		addToCart(itemId).then(r => {
+		addToCart(itemId, 'item').then(r => {
 			console.log(r);
 		});
 	}

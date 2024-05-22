@@ -4,7 +4,7 @@ import App from "./pages/App.tsx";
 import Items from "./Items.tsx";
 import ItemPage from "./pages/ItemPage.tsx";
 import {Layout} from "./components/Layout.tsx";
-import User from "./pages/User.tsx";
+import UserPage from "./pages/UserPage.tsx";
 import {useEffect} from "react";
 import {useAppDispatch} from "./api/app/hooks.ts";
 import CartPage from "./pages/cart/CartPage.tsx";
@@ -14,6 +14,7 @@ import Login from "./pages/auth/Login.tsx";
 import RequireAuth from "./components/RequireAuth.tsx";
 import Logout from "./pages/auth/Logout.tsx";
 import Register from "./pages/auth/Register.tsx";
+import SkinPage from "./pages/SkinPage.tsx";
 
 export default function Router() {
 	const dispatch = useAppDispatch();
@@ -28,12 +29,13 @@ export default function Router() {
 				<Route path="/" element={<Layout><App/></Layout>}/>
 				<Route path="/items" element={<Layout><Items/></Layout>}/>
 				<Route path="/items/:id" element={<Layout><ItemPage/></Layout>}/>
+				<Route path="/skins/:id" element={<Layout><SkinPage/></Layout>}/>
 				<Route element={<Layout><RequireNotAuth/></Layout>}>
 					<Route path="/auth/login" element={<Login/>}/>
 					<Route path="/auth/register" element={<Register/>}/>
 				</Route>
 				<Route element={<Layout><RequireAuth/></Layout>}>
-					<Route path="/user" element={<User/>}/>
+					<Route path="/user" element={<UserPage/>}/>
 					<Route path="/cart" element={<CartPage/>}/>
 					<Route path="/auth/logout" element={<Logout/>}/>
 				</Route>

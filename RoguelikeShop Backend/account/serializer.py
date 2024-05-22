@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from account.models import UserInfo, UserItem, Role
+from account.models import UserInfo, UserItem, Role, UserSkin
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -12,6 +12,12 @@ class RoleSerializer(serializers.ModelSerializer):
 class UserItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserItem
+        fields = '__all__'
+
+
+class UserSkinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSkin
         fields = '__all__'
 
 

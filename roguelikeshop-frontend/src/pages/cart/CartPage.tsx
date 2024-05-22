@@ -14,16 +14,16 @@ export default function CartPage() {
 		hasFetched.current = true;
 	}, []);
 
-	const handleRemoveFromCart: (itemId: number) => () => void = (itemId) => () => {
-		removeFromCart(itemId).then(r => {
+	const handleRemoveFromCart: (itemId: number, type: string) => () => void = (itemId, type) => () => {
+		removeFromCart(itemId, type).then(r => {
 			if (r) {
 				getCart().then((cart) => setCart(cart));
 			}
 		});
 	}
 
-	const handleAddToCart: (itemId: number) => () => void = (itemId) => () => {
-		addToCart(itemId).then(r => {
+	const handleAddToCart: (itemId: number, type: string) => () => void = (itemId, type) => () => {
+		addToCart(itemId, type).then(r => {
 			if (r) {
 				console.log('Item added to cart')
 				getCart().then((cart) => setCart(cart));
@@ -55,8 +55,8 @@ export default function CartPage() {
 												<p>{cartItem.item.name}</p>
 												<p>Count: {cartItem.count}</p>
 												<p>Price: {cartItem.price}</p>
-												<button onClick={handleRemoveFromCart(cartItem.item.id)}>-</button>
-												<button onClick={handleAddToCart(cartItem.item.id)}>+</button>
+												<button onClick={handleRemoveFromCart(cartItem.item.id, 'item')}>-</button>
+												<button onClick={handleAddToCart(cartItem.item.id, 'item')}>+</button>
 											</div>
 										))}
 									</div>
@@ -70,9 +70,8 @@ export default function CartPage() {
 											<p>{cartSkin.skin.name}</p>
 											<p>Count: {cartSkin.count}</p>
 											<p>Price: {cartSkin.price}</p>
-											<button onClick={handleRemoveFromCart(cartSkin.skin.id)}>-
-											</button>
-											<button onClick={handleAddToCart(cartSkin.skin.id)}>+</button>
+											<button onClick={handleRemoveFromCart(cartSkin.skin.id, 'skin')}>-</button>
+											<button onClick={handleAddToCart(cartSkin.skin.id, 'skin')}>+</button>
 										</div>
 									))}
 								</div>

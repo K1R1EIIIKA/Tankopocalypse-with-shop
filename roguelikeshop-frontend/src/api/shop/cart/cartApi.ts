@@ -38,12 +38,13 @@ export async function getCart() {
 	}
 }
 
-export async function addToCart(itemId: number) {
+export async function addToCart(itemId: number, type: string) {
 	try {
 		console.log({item_id: itemId, user_id: (await getUser()).id})
 		await axios.post('http://localhost:8000/api/shop/cart/add-item/', {
 			item_id: itemId,
-			user_id: (await getUser()).id
+			user_id: (await getUser()).id,
+			type: type
 		}, {withCredentials: true});
 		return true;
 	} catch (error) {
@@ -52,11 +53,12 @@ export async function addToCart(itemId: number) {
 	}
 }
 
-export async function removeFromCart(itemId: number) {
+export async function removeFromCart(itemId: number, type: string) {
 	try {
 		await axios.post('http://localhost:8000/api/shop/cart/remove-item/', {
 			item_id: itemId,
-			user_id: (await getUser()).id
+			user_id: (await getUser()).id,
+			type: type
 		}, {withCredentials: true});
 		return true;
 	} catch (error) {

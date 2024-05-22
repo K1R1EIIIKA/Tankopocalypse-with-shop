@@ -104,31 +104,53 @@ class AddToCartView(APIView):
     def post(self, request, *args, **kwargs):
         item_id = request.data.get('item_id')
         user_id = request.data.get('user_id')
+        type = request.data.get('type')
 
-        try:
-            item = Item.objects.get(id=item_id)
-            user = User.objects.get(id=user_id)
-        except Item.DoesNotExist:
-            return Response({'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
-        except User.DoesNotExist:
-            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        if type == 'item':
+            try:
+                item = Item.objects.get(id=item_id)
+                user = User.objects.get(id=user_id)
+            except Item.DoesNotExist:
+                return Response({'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+            except User.DoesNotExist:
+                return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        print(item, user)
-        cart = Cart.objects.filter(user=user).first()
-        print(cart)
+            cart = Cart.objects.filter(user=user).first()
 
-        cart_item = CartItem.objects.filter(item=item, cart__user__cart=cart).first()
-        print(cart_item)
+            cart_item = CartItem.objects.filter(item=item, cart__user__cart=cart).first()
 
-        if cart_item:
-            cart_item.count += 1
+            if cart_item:
+                cart_item.count += 1
+                cart_item.save()
+            else:
+                cart_item = CartItem.objects.create(item=item, count=1, cart=cart)
+                cart.items.add(cart_item)
+                cart.save()
+
             cart_item.save()
-        else:
-            cart_item = CartItem.objects.create(item=item, count=1, cart=cart)
-            cart.items.add(cart_item)
-            cart.save()
 
-        cart_item.save()
+        elif type == 'skin':
+            try:
+                skin = Skin.objects.get(id=item_id)
+                user = User.objects.get(id=user_id)
+            except Skin.DoesNotExist:
+                return Response({'message': 'Skin not found'}, status=status.HTTP_404_NOT_FOUND)
+            except User.DoesNotExist:
+                return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+            cart = Cart.objects.filter(user=user).first()
+
+            cart_skin = CartSkin.objects.filter(skin=skin, cart__user__cart=cart).first()
+
+            if cart_skin:
+                cart_skin.count += 1
+                cart_skin.save()
+            else:
+                cart_skin = CartSkin.objects.create(skin=skin, count=1, cart=cart)
+                cart.skins.add(cart_skin)
+                cart.save()
+
+            cart_skin.save()
 
         return Response({'message': 'Item added to cart'}, status=status.HTTP_200_OK)
 
@@ -140,25 +162,47 @@ class RemoveFromCartView(APIView):
     def post(self, request, *args, **kwargs):
         item_id = request.data.get('item_id')
         user_id = request.data.get('user_id')
+        type = request.data.get('type')
 
-        try:
-            item = Item.objects.get(id=item_id)
-            user = User.objects.get(id=user_id)
-        except Item.DoesNotExist:
-            return Response({'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
-        except User.DoesNotExist:
-            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        if type == 'item':
+            try:
+                item = Item.objects.get(id=item_id)
+                user = User.objects.get(id=user_id)
+            except Item.DoesNotExist:
+                return Response({'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+            except User.DoesNotExist:
+                return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        cart = Cart.objects.filter(user=user).first()
-        cart_item = CartItem.objects.filter(item=item, cart=cart).first()
+            cart = Cart.objects.filter(user=user).first()
+            cart_item = CartItem.objects.filter(item=item, cart=cart).first()
 
-        if cart_item:
-            cart_item.count -= 1
-            cart_item.save()
+            if cart_item:
+                cart_item.count -= 1
+                cart_item.save()
 
-            if cart_item.count == 0:
-                cart.items.remove(cart_item)
-                cart_item.delete()
+                if cart_item.count == 0:
+                    cart.items.remove(cart_item)
+                    cart_item.delete()
+
+        elif type == 'skin':
+            try:
+                skin = Skin.objects.get(id=item_id)
+                user = User.objects.get(id=user_id)
+            except Skin.DoesNotExist:
+                return Response({'message': 'Skin not found'}, status=status.HTTP_404_NOT_FOUND)
+            except User.DoesNotExist:
+                return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+            cart = Cart.objects.filter(user=user).first()
+            cart_skin = CartSkin.objects.filter(skin=skin, cart=cart).first()
+
+            if cart_skin:
+                cart_skin.count -= 1
+                cart_skin.save()
+
+                if cart_skin.count == 0:
+                    cart.skins.remove(cart_skin)
+                    cart_skin.delete()
 
         return Response({'message': 'Item removed from cart'}, status=status.HTTP_200_OK)
 

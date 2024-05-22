@@ -2,8 +2,8 @@ from django.http import Http404
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
-from account.models import UserInfo, UserItem, Role
-from account.serializer import UserItemSerializer, UserInfoSerializer, RoleSerializer
+from account.models import UserSkin
+from account.serializer import *
 
 
 class RoleListCreate(generics.ListCreateAPIView):
@@ -18,13 +18,30 @@ class RoleRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 
 class UserItemListCreate(generics.ListCreateAPIView):
-    queryset = UserItem.objects.all()
     serializer_class = UserItemSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return UserItem.objects.filter(user=self.request.user)
 
 
 class UserItemRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserItem.objects.all()
     serializer_class = UserItemSerializer
+    http_method_names = ['get', 'put', 'delete']
+
+
+class UserSkinListCreate(generics.ListCreateAPIView):
+    serializer_class = UserSkinSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return UserSkin.objects.filter(user=self.request.user)
+
+
+class UserSkinRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserSkin.objects.all()
+    serializer_class = UserSkinSerializer
     http_method_names = ['get', 'put', 'delete']
 
 

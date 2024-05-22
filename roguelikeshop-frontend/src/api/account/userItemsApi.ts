@@ -12,7 +12,7 @@ export interface UserItem {
 
 export async function getUserItems() {
 	try {
-		const response = await axios.get('http://localhost:8000/api/account/user-items');
+		const response = await axios.get('http://localhost:8000/api/account/user-items', {withCredentials: true});
 		const userItems = response.data;
 		for (const userItem of userItems) {
 			userItem.item = await getItem(userItem.item);
@@ -26,7 +26,7 @@ export async function getUserItems() {
 
 export async function getUserItem(id: number) {
 	try {
-		const response = await axios.get(`http://localhost:8000/api/account/user-items/${id}`);
+		const response = await axios.get(`http://localhost:8000/api/account/user-items/${id}`, {withCredentials: true});
 		const userItem = response.data;
 		userItem.item = await getItem(userItem.item);
 		return userItem;

@@ -18,10 +18,10 @@ urlpatterns = [
     path('cart/', CartDetail.as_view(), name='cart-detail'),
     path('cart/add-item/', AddToCartView.as_view(), name='add-item-to-cart'),
     path('cart/remove-item/', RemoveFromCartView.as_view(), name='remove-item-from-cart'),
+    path('cart/checkout/', CheckoutView.as_view(), name='checkout'),
     path('cart-items/', CartItemListCreate.as_view(), name='cart-item-list'),
     path('cart-items/<int:pk>/', CartItemRetrieveUpdateDestroy.as_view(), name='cart-item-detail'),
     path('cart-skins/', CartSkinListCreate.as_view(), name='cart-skin-list'),
     path('cart-skins/<int:pk>/', CartSkinRetrieveUpdateDestroy.as_view(), name='cart-skin-detail'),
     path('order/', OrderListCreate.as_view(), name='order-list'),
-    path('checkout/', CheckoutView.as_view(), name='checkout'),
 ]

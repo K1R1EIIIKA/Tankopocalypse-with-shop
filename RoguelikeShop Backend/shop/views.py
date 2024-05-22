@@ -114,7 +114,7 @@ class AddToCartView(APIView):
             return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         print(item, user)
-        cart = Cart.objects.filter(user=user, is_active=True).first()
+        cart = Cart.objects.filter(user=user).first()
         print(cart)
 
         cart_item = CartItem.objects.filter(item=item, cart__user__cart=cart).first()
@@ -198,8 +198,12 @@ class CheckoutView(APIView):
             else:
                 UserSkin.objects.create(user=user, skin=skin.skin, count=skin.count)
 
-        # cart.items.clear()
-        # cart.skins.clear()
+        user_info = user.userinfo
+        user_info.items.set(user.useritem_set.all())
+        user_info.skins.set(user.userskin_set.all())
+
+        cart.items.clear()
+        cart.skins.clear()
         cart.save()
 
         return Response({'message': 'Order created'}, status=status.HTTP_200_OK)

@@ -12,6 +12,8 @@ import {loadUser} from "./api/app/authActions.ts";
 import RequireNotAuth from "./components/RequireNotAuth.tsx";
 import Login from "./pages/auth/Login.tsx";
 import RequireAuth from "./components/RequireAuth.tsx";
+import Logout from "./pages/auth/Logout.tsx";
+import Register from "./pages/auth/Register.tsx";
 
 export default function Router() {
     const dispatch = useAppDispatch();
@@ -28,10 +30,12 @@ export default function Router() {
                 <Route path="/items/:id" element={<Layout><ItemPage/></Layout>}/>
                 <Route element={<Layout><RequireNotAuth /></Layout>}>
                     <Route path="/auth/login" element={<Login/>} />
+                    <Route path="/auth/register" element={<Register/>} />
                 </Route>
                 <Route element={<Layout><RequireAuth/></Layout>}>
                     <Route path="/user" element={<User/>}/>
                     <Route path="/cart" element={<CartPage/>}/>
+                    <Route path="/auth/logout" element={<Logout/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

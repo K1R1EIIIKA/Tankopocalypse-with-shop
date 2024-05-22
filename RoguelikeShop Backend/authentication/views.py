@@ -8,14 +8,23 @@ from rest_framework.views import APIView
 
 from authentication.models import User
 from authentication.serializers import UserSerializer
-from account.models import UserInfo
+from account.models import UserInfo, Role
+from shop.models import Cart
 
 
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user_info = UserInfo.objects.create(user=serializer.save())
+        serializer.save()
+
+        cart = Cart.objects.create(user=serializer.instance)
+        cart.save()
+
+        user_info = UserInfo.objects.create(user=serializer.instance)
+        role = Role.objects.get(name='Cringe')
+        user_info.role = role
+        user_info.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -26,11 +35,14 @@ class LoginView(APIView):
         password = request.data['password']
 
         user = User.objects.filter(email=email).first()
+        print(user)
 
         if user is None:
             raise AuthenticationFailed('Пользователь не найден')
 
+        print(password)
         if not user.check_password(password):
+            print(1111111)
             raise AuthenticationFailed('Неверный пароль')
 
         access_token_payload = {

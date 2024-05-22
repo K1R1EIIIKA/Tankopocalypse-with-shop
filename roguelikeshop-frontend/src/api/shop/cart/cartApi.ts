@@ -61,3 +61,14 @@ export async function removeFromCart(itemId: number) {
         return false;
     }
 }
+
+export async function checkout() {
+    try {
+        await axios.post('http://localhost:8000/api/shop/cart/checkout/', { user_id: (await getUser()).id }, { withCredentials: true });
+        return true;
+    }
+    catch (error) {
+        console.error('There was an error!', error);
+        return false;
+    }
+}

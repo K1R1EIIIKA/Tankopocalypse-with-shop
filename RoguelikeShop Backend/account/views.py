@@ -1,9 +1,13 @@
 from django.http import Http404
-from rest_framework import generics
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from account.models import UserSkin
 from account.serializer import *
+from authentication.models import User
 
 
 class RoleListCreate(generics.ListCreateAPIView):
@@ -56,3 +60,30 @@ class UserInfoDetail(generics.RetrieveAPIView):
             return queryset.first()
         else:
             raise Http404("UserInfo not found")
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class MotherloadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        print(111)
+        user = request.user.id
+        print(user)
+
+        try:
+            user = User.objects.get(id=user)
+        except User.DoesNotExist:
+            return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        user_info = user.userinfo
+        print(user_info.role.name.lower())
+        if user_info.role.name.lower() == 'crush':
+            if user_info.balance is None:
+                user_info.balance = 1000
+            user_info.balance += 1000
+            user_info.save()
+
+            return Response({'message': 'Motherload added'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'User is not Crush'}, status=status.HTTP_403_FORBIDDEN)

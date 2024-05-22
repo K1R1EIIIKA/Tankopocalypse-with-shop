@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {login} from "../../api/app/authActions.ts";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../api/app/hooks.ts";
+import {refreshUserInfo} from "../../components/useUserInfo.tsx";
 
 export default function Login() {
 	const [email, setEmail] = useState('');
@@ -13,7 +14,6 @@ export default function Login() {
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		dispatch(login(email, password));
-		//redirect to user page
 		navigate('/user');
 	};
 

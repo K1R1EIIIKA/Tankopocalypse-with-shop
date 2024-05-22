@@ -10,4 +10,5 @@ urlpatterns = [
     path('user-skins/', UserSkinListCreate.as_view(), name='user-skin-list'),
     path('user-skins/<int:pk>/', UserSkinRetrieveUpdateDestroy.as_view(), name='user-skin-detail'),
     path('user-info/', UserInfoDetail.as_view(), name='user-info-detail'),
+    path('motherload/', MotherloadView.as_view(), name='motherload'),
 ]

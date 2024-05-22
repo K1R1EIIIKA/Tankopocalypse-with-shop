@@ -3,16 +3,26 @@ import {User} from "../api/account/UserApi.ts";
 import {useEffect, useState} from "react";
 import {getUserItems, UserItem} from "../api/account/userItemsApi.ts";
 import {getUserSkins, UserSkin} from "../api/account/userSkinsApi.ts";
+import {refreshUserInfo, useUserInfo} from "../components/useUserInfo.tsx";
+import {getUserInfo, motherload, UserInfo} from "../api/account/userInfoApi.ts";
 
 export default function UserPage() {
-	const user: User = useAppSelector((state) => state.auth.user);
+	const user: User  = useAppSelector((state) => state.auth.user);
 	const [items, setItems] = useState<UserItem[] | null>(null);
 	const [skins, setSkins] = useState<UserSkin[] | null>(null);
+	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
 	useEffect(() => {
 		getUserItems().then((items) => setItems(items));
 		getUserSkins().then((skins) => setSkins(skins));
+		getUserInfo().then((userInfo) => setUserInfo(userInfo));
 	}, []);
+
+	function handleMotherload() {
+		motherload().then(() => {
+			refreshUserInfo()
+		});
+	}
 
 	return (
 		<div>
@@ -20,6 +30,9 @@ export default function UserPage() {
 			<div>
 				<h2>{user?.name}</h2>
 				<p>{user?.email}</p>
+				{userInfo && userInfo.role.name.toLowerCase() === 'crush' && (
+					<button onClick={handleMotherload}>Motherload</button>
+				)}
 
 				{items ? (
 					<div>

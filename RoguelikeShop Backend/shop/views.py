@@ -219,7 +219,16 @@ class CheckoutView(APIView):
         except User.DoesNotExist:
             return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
+        user_info = user.userinfo
         cart = Cart.objects.filter(user=user).first()
+        if cart is None:
+            return Response({'message': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if user_info.balance < cart.total_price:
+            return Response({'message': 'Not enough money'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user_info.balance -= cart.total_price
+        user_info.save()
 
         order = Order.objects.create(user=user)
         order.items.set(cart.items.all())

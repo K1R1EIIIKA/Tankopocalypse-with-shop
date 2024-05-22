@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import {addToCart, Cart, checkout, getCart, removeFromCart} from "../../api/shop/cart/cartApi.ts";
+import {refreshUserInfo} from "../../components/useUserInfo.tsx";
 
 export default function CartPage() {
 	const [cart, setCart] = useState<Cart | null>(null);
@@ -35,6 +36,7 @@ export default function CartPage() {
 		checkout().then(r => {
 			if (r) {
 				getCart().then((cart) => setCart(cart));
+				refreshUserInfo();
 			}
 		});
 	}

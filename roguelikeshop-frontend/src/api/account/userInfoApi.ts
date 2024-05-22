@@ -3,6 +3,7 @@ import {getRole, Role} from "./RolesApi.ts";
 import {getUserItem, UserItem} from "./userItemsApi.ts";
 import {getUserSkin, UserSkin} from "./userSkinsApi.ts";
 import axios from "axios";
+import {refreshUserInfo} from "../../components/useUserInfo.tsx";
 
 export interface UserInfo {
 	id: number;
@@ -32,6 +33,16 @@ export async function getUserInfo() {
 			userInfo.skins.push(await getUserSkin(userSkin));
 		}
 		return userInfo;
+	} catch (error) {
+		console.error('There was an error!', error);
+		return null;
+	}
+}
+
+export async function motherload() {
+	try {
+		const response = await axios.get('http://localhost:8000/api/account/motherload/', {withCredentials: true});
+		return response.data;
 	} catch (error) {
 		console.error('There was an error!', error);
 		return null;

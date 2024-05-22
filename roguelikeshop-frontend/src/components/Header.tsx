@@ -2,21 +2,18 @@ import {Link} from "react-router-dom";
 // import {useSelector} from "react-redux";
 // import {RootState} from "@reduxjs/toolkit/query";
 import {useAppSelector} from "../api/app/hooks.ts";
-import {useState} from "react";
-import {getUserInfo, UserInfo} from "../api/account/userInfoApi.ts";
+// import {getUserInfo} from "../api/account/userInfoApi.ts";
+import {refreshUserInfo, useUserInfo} from "./useUserInfo.tsx";
+import {useEffect} from "react";
 
 export default function Header() {
 	// const user = useSelector((state: RootState) => state.auth.user);
 	const user: any = useAppSelector((state) => state.auth.user);
-	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+	const userInfo = useUserInfo();
 
-	if (user && !userInfo) {
-		getUserInfo().then(setUserInfo);
-	}
 
 	return (
 		<header>
-			{/*<h1>Header</h1>*/}
 			<nav className={'nav'}>
 				<Link to="/" className="nav-link">Home</Link>
 				<Link to="/items" className="nav-link">Items</Link>

@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {Skin} from "../api/shop/SkinsApi.ts";
+import {Skin} from "../../api/shop/SkinsApi.ts";
 
 export default function SkinCard({skin}: { skin: Skin }) {
 	return (

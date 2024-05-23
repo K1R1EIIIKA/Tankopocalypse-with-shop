@@ -20,6 +20,14 @@ export default function UserPage() {
 		getUserInfo().then((userInfo) => setUserInfo(userInfo));
 	}, []);
 
+	function sortItems(items: UserItem[]): UserItem[] {
+		return items.sort((a, b) => a.item.rarity.index - b.item.rarity.index);
+	}
+
+	function sortSkins(skins: UserSkin[]): UserSkin[] {
+		return skins.sort((a, b) => a.skin.rarity.index - b.skin.rarity.index);
+	}
+
 	function handleMotherload() {
 		motherload().then(() => {
 			refreshUserInfo()
@@ -52,7 +60,7 @@ export default function UserPage() {
 					{items ? (
 						<div className={'mt-4 user-items'}>
 							<h3>Предметы</h3>
-							{items.map((item) => (
+							{sortItems(items).map((item) => (
 								<div key={item.id}>
 									<h5>{item.item.name} - <span
 										style={{color: item.item.rarity.color.hex_code}}>{item.item.rarity.name}</span> x{item.count}</h5>
@@ -68,7 +76,7 @@ export default function UserPage() {
 					{skins ? (
 						<div className={'mt-4 user-items'}>
 							<h3>Скины</h3>
-							{skins.map((skin) => (
+							{sortSkins(skins).map((skin) => (
 								<div key={skin.id}>
 									<h5>{skin.skin.name} (<span
 										style={{color: skin.skin.color.hex_code}}>{skin.skin.color.name}</span>) - <span

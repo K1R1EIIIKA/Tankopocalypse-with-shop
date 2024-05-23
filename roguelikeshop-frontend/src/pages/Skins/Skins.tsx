@@ -1,7 +1,7 @@
 import {getSkins, Skin} from "../../api/shop/SkinsApi.ts";
 import {useEffect, useState} from "react";
 import {Rarity} from "../../api/shop/RaritiesApi.ts";
-import SkinCard from "../../components/SkinCard.tsx";
+import SkinCard from "../../components/SkinCard/SkinCard.tsx";
 
 export default function Skins() {
 	const [sortedSkins, setSortedSkins] = useState<{ rarities: Rarity[], skins: Skin[] } | null>(null);

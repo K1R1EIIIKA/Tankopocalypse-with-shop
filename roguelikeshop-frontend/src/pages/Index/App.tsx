@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from 'react';
 import {getItems, Item} from "../../api/shop/itemsApi.ts";
 import ItemCard from "../../components/ItemCard/ItemCard.tsx";
 import {getSkins, Skin} from "../../api/shop/SkinsApi.ts";
-import SkinCard from "../../components/SkinCard.tsx";
+import SkinCard from "../../components/SkinCard/SkinCard.tsx";
 import './App.css';
 
 export default function App() {
@@ -15,16 +15,13 @@ export default function App() {
 		allItems.push(...items.map((item) => ({ type: 'item', item })));
 		allItems.push(...skins.map((skin) => ({ type: 'skin', item: skin })));
 
-		// Создаем массив индексов элементов
 		const indices = Array.from({ length: allItems.length }, (_, i) => i);
-		// Перемешиваем массив индексов
 		for (let i = indices.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
 			[indices[i], indices[j]] = [indices[j], indices[i]];
 		}
 
 		const randomItems: { type: 'item' | 'skin', item: Item | Skin }[] = [];
-		// Выбираем случайные элементы на основе перемешанных индексов
 		for (let i = 0; i < count && i < indices.length; i++) {
 			randomItems.push(allItems[indices[i]]);
 		}
@@ -37,7 +34,6 @@ export default function App() {
 			}
 		});
 	}
-
 
 	useEffect(() => {
 		if (hasFetched.current) return;
@@ -70,27 +66,6 @@ export default function App() {
 					<p>Loading items...</p>
 				)}
 			</section>
-
-			{/*<h1>Items</h1>*/}
-			{/*{items ? (*/}
-			{/*	<div>*/}
-			{/*		{items.map((item) => (*/}
-			{/*			<ItemCard key={item.id} item={item}/>*/}
-			{/*		))}*/}
-			{/*	</div>*/}
-			{/*) : (*/}
-			{/*	<p>Loading items...</p>*/}
-			{/*)}*/}
-			{/*<h1>Skins</h1>*/}
-			{/*{skins ? (*/}
-			{/*	<div>*/}
-			{/*		{skins.map((skin) => (*/}
-			{/*			<SkinCard key={skin.id} skin={skin}/>*/}
-			{/*		))}*/}
-			{/*	</div>*/}
-			{/*) : (*/}
-			{/*	<p>Loading skins...</p>*/}
-			{/*)}*/}
 		</>
 	);
 }

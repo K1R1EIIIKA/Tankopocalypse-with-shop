@@ -70,7 +70,8 @@ export default function UserPage() {
 							<h3>Скины</h3>
 							{skins.map((skin) => (
 								<div key={skin.id}>
-									<h5>{skin.skin.name} - <span
+									<h5>{skin.skin.name} (<span
+										style={{color: skin.skin.color.hex_code}}>{skin.skin.color.name}</span>) - <span
 										style={{color: skin.skin.rarity.color.hex_code}}>{skin.skin.rarity.name}</span> x{skin.count}</h5>
 								</div>
 							))}

@@ -21,33 +21,32 @@ export default function Header() {
 					</button>
 					<div className="collapse navbar-collapse" id="navbarText">
 						<ul className="navbar-nav">
-							<Link to="/items" className="nav-item nav-link me-3">Предметы</Link>
+							<Link to="/items" className="nav-item nav-link me-3 ms-3">Предметы</Link>
 							<Link to="/items" className="nav-item nav-link me-3">Скины</Link>
-
 						</ul>
 					</div>
+
 					{!user && (
 						<>
 							<span className="navbar-text">
-								<Link to="/auth/login" className="nav-item nav-link">Login</Link>
+								<Link to="/auth/login" className="nav-item nav-link me-4">Вход</Link>
 							</span>
 							<span className="navbar-text">
-								<Link to="/auth/register" className="nav-item nav-link">Register</Link>
+								<Link to="/auth/register" className="nav-item nav-link me-5">Регистрация</Link>
 							</span>
-						</>
-					)}
-					{user && (
-						<>
-							<span className="navbar-text me-4">
-								<Link to="/cart" className="nav-item nav-link">Корзина - {cart?.total_price}₽</Link>
-							</span>
-							<span className="navbar-text me-5">
-								<Link to="/user" className="nav-item nav-link">{user.name} - {userInfo?.balance}₽</Link>
-							</span>
-							{/*<span className="navbar-text"><Link to="/auth/logout" className="nav-item nav-link">Logout</Link></span>*/}
 						</>
 					)}
 
+					{user && (
+						<>
+							<Link to="/cart" className="text-decoration-none">
+								<span className="navbar-text me-4">Корзина - {cart?.total_price}₽</span>
+							</Link>
+							<span className="navbar-text me-5">
+								<Link to="/user" className="nav-item nav-link">{user.name} - {userInfo?.balance}₽</Link>
+							</span>
+						</>
+					)}
 				</div>
 			</nav>
 		</header>

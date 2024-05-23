@@ -5,6 +5,7 @@ import {getUserItems, UserItem} from "../api/account/userItemsApi.ts";
 import {getUserSkins, UserSkin} from "../api/account/userSkinsApi.ts";
 import {refreshUserInfo} from "../components/Hooks/useUserInfo.tsx";
 import {getUserInfo, motherload, UserInfo} from "../api/account/userInfoApi.ts";
+import {Link} from "react-router-dom";
 
 export default function UserPage() {
 	const user: User  = useAppSelector((state) => state.auth.user);
@@ -33,6 +34,8 @@ export default function UserPage() {
 				{userInfo && userInfo.role.name.toLowerCase() === 'crush' && (
 					<button onClick={handleMotherload}>Motherload</button>
 				)}
+
+				<span className="navbar-text"><Link to="/auth/logout" className="nav-item nav-link">Logout</Link></span>
 
 				{items ? (
 					<div>

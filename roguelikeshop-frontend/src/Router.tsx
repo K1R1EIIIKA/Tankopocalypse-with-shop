@@ -7,7 +7,7 @@ import {Layout} from "./components/Layouts/Layout/Layout.tsx";
 import UserPage from "./pages/UserPage.tsx";
 import {useEffect} from "react";
 import {useAppDispatch} from "./api/app/hooks.ts";
-import CartPage from "./pages/cart/CartPage.tsx";
+import CartPage from "./pages/CartPage/CartPage.tsx";
 import {loadUser} from "./api/app/authActions.ts";
 import RequireNotAuth from "./components/Layouts/RequireNotAuth.tsx";
 import Login from "./pages/auth/Login.tsx";

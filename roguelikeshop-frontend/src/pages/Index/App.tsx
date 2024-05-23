@@ -10,7 +10,7 @@ export default function App() {
 	const [skins, setSkins] = useState<Skin[] | null>(null);
 	const hasFetched = useRef(false);
 
-	function getRandomItems(items: Item[], skins: Skin[], count: number): (Item | Skin)[] {
+	function getRandomItems(items: Item[], skins: Skin[], count: number): JSX.Element[] {
 		const allItems: { type: 'item' | 'skin', item: Item | Skin }[] = [];
 		allItems.push(...items.map((item) => ({ type: 'item', item })));
 		allItems.push(...skins.map((skin) => ({ type: 'skin', item: skin })));
@@ -29,7 +29,13 @@ export default function App() {
 			randomItems.push(allItems[indices[i]]);
 		}
 
-		return randomItems.map((randomItem) => randomItem.item);
+		return randomItems.map((item) => {
+			if (item.type === 'item') {
+				return <ItemCard key={item.item.id} item={item.item}/>;
+			} else {
+				return <SkinCard key={item.item.id} skin={item.item}/>;
+			}
+		});
 	}
 
 
@@ -50,7 +56,7 @@ export default function App() {
 				<h2 className={'col mt-5'}>Скачайте нашу игру! <br/>
 					Дайте нам много своих денег!!!!</h2>
 				<div className={'col d-flex justify-content-center'}>
-					<button className={'btn btn-primary mt-5'}>Скачать</button>
+					<button className={'btn-main btn btn-primary mt-5'}>Скачать</button>
 				</div>
 			</section>
 
@@ -58,9 +64,7 @@ export default function App() {
 				<h2 className={'fw-bold mb-3'}>Популярные товары</h2>
 				{items && skins ? (
 					<div className={'row items-row'}>
-						{getRandomItems(items, skins, 6).map((item) => (
-							(item as Item).id ? <ItemCard key={(item as Item).id} item={item as Item}/> : <SkinCard key={(item as Skin).id} skin={item as Skin}/>
-						))}
+						{getRandomItems(items, skins, 6)}
 					</div>
 				) : (
 					<p>Loading items...</p>

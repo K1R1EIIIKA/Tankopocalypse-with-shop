@@ -38,12 +38,12 @@ export default function UserPage() {
 	return (
 		<div>
 			<div className="row mt-4">
-				<div className="col user-info">
+				<div className="col-sm-6 user-info">
 					<h1>Привет, {user?.name}!</h1>
 					<h3>e-mail: {user?.email}</h3>
 					<h3>Баланс: {userInfo?.balance}₽</h3>
 				</div>
-				<div className="col">
+				<div className="col-sm-6">
 					{userInfo && userInfo.role.name.toLowerCase() === 'crush' && (
 						<>
 							<button onClick={handleMotherload} className={'btn btn-primary mb-4'}>Добавить денег</button>
@@ -56,7 +56,7 @@ export default function UserPage() {
 				</div>
 			</div>
 			<div className={'row'}>
-				<div className="col">
+				<div className="col-md-6">
 					{items ? (
 						<div className={'mt-4 user-items'}>
 							<h3>Предметы</h3>
@@ -72,7 +72,7 @@ export default function UserPage() {
 					)}
 				</div>
 
-				<div className="col">
+				<div className="col-md-6">
 					{skins ? (
 						<div className={'mt-4 user-items'}>
 							<h3>Скины</h3>

@@ -3,7 +3,7 @@ import {Skin} from "../../api/shop/SkinsApi.ts";
 
 export default function SkinCard({skin}: { skin: Skin }) {
 	return (
-		<div className={'col-4 p-2'}>
+		<div className={'col-md-4 col-sm-6 p-2'}>
 			<div className={'item-card p-3'}>
 				<Link to={'/skins/' + skin.id} className={'text-decoration-none text-black text-center'}>
 					<p className={'link-dark item-name mb-2'}>{skin.name}</p>

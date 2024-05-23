@@ -53,7 +53,7 @@ export default function CartPage() {
 					{cart.items_count !== 0 ? (
 						<>
 							<div className="row mt-4">
-								<div className="col-5">
+								<div className="col-md-5 col-sm-12">
 									{cart.items.length > 0 && (
 										<div>
 											<h3>Предметы</h3>
@@ -91,8 +91,8 @@ export default function CartPage() {
 														<p className={'mb-1'}>
 															{cartSkin.skin.name} - <span
 															style={{color: cartSkin.skin.rarity.color.hex_code}}>{cartSkin.skin.rarity.name}</span><br/>
-															<h5 className={'mt-1'}><span
-																style={{color: cartSkin.skin.color.hex_code}}>{cartSkin.skin.color.name}</span></h5>
+															<span className={'mt-1 text-color'}><span
+																style={{color: cartSkin.skin.color.hex_code}}>{cartSkin.skin.color.name}</span></span>
 														</p>
 													</Link>
 													<h5 className={'mb-2'}>{cartSkin.price}₽</h5>
@@ -111,7 +111,7 @@ export default function CartPage() {
 									)}
 								</div>
 								<div className="col-1"></div>
-								<div className="col-5">
+								<div className="col-md-5 col-sm-12">
 									<h3>Оформление корзины</h3>
 									<div className="checkout-container">
 									<h4 className={'h4-price'}>Итого: {cart.total_price}₽</h4>

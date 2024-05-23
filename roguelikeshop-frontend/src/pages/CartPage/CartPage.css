@@ -1,58 +1,77 @@
 button.btn.btn-checkout {
-  background: #FFA873;
-  border-radius: 12px;
-  border: none;
-  padding: 7px 20px;
-  color: black;
-  font-size: 1.5rem;
-  font-weight: 800;
-  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.125);
+    background: #FFA873;
+    border-radius: 12px;
+    border: none;
+    padding: 7px 20px;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: 800;
+    box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.125);
 }
 
 .col h4 {
-  font-weight: 600;
-  margin-bottom: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }
 
 button.btn.btn-checkout:hover {
-  background: #ff8f48;
+    background: #ff8f48;
 }
 
 button.btn.btn-checkout:active:hover, button.btn.btn-checkout:active:focus {
-  background: #ff731f;
-  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.125);
+    background: #ff731f;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.125);
 }
 
 button.btn.button-add, button.btn.button-remove {
-  background: #FFA873;
-  border-radius: 12px;
-  border: none;
-  padding: 3px 14px;
-  color: black;
-  font-size: 1.2rem;
-  font-weight: 800;
-  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.125);
+    background: #FFA873;
+    border-radius: 12px;
+    border: none;
+    padding: 3px 14px;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 800;
+    box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.125);
 }
 
 button.btn.button-add:hover, button.btn.button-remove:hover {
-  background: #ff8f48;
+    background: #ff8f48;
 }
 
 button.btn.button-add:active:hover, button.btn.button-add:active:focus, button.btn.button-remove:active:hover, button.btn.button-remove:active:focus {
-  background: #ff731f;
-  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.125);
+    background: #ff731f;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.125);
 }
 
 .button-container {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .button-container span {
-  font-size: 1.3rem;
+    font-size: 1.3rem;
 }
 
 .item-container h5 {
-  font-weight: 800;
-  font-size: 1.5rem;
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+.item-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.125);
+    padding: 1rem;
+}
+
+h4.h4-price {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.checkout-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.125);
+    padding: 1.25rem;
 }

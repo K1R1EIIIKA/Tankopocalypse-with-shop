@@ -1,0 +1,17 @@
+.user-items h5 {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.user-items {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.125);
+    padding: 1rem;
+    max-width: 600px;
+}
+
+.user-info h1 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}

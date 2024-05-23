@@ -1,8 +1,9 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
-import {addToCart} from "../api/shop/cart/cartApi.ts";
-import {getSkin, Skin} from "../api/shop/SkinsApi.ts";
-import {refreshCart} from "../components/Hooks/useCart.tsx";
+import {addToCart} from "../../api/shop/cart/cartApi.ts";
+import {getSkin, Skin} from "../../api/shop/SkinsApi.ts";
+import {refreshCart} from "../../components/Hooks/useCart.tsx";
+import './SkinPage.css';
 
 export default function SkinPage() {
 	const {id} = useParams<{ id: string }>();
@@ -29,13 +30,12 @@ export default function SkinPage() {
 	}
 
 	return (
-		<div>
-			<h1>{skin.name}</h1>
-			<h3>{skin.description}</h3>
-			<p>Rarity: <span style={{color: skin.rarity.color.hex_code}}>{skin.rarity.name}</span></p>
-			<p>Color: <span style={{color: skin.color.hex_code}}>{skin.color.name}</span></p>
-			<p>Price: {skin.price}</p>
-			<button onClick={handleAddToCart(skin.id)}>Add to cart</button>
+		<div className={'skin-page'}>
+			<h1 className={'mt-3 mb-3'}>{skin.name}</h1>
+			<h3 className={'mb-2'}>{skin.description}</h3>
+			<h5 className={'mb-1'}>Редкость: <span style={{color: skin.rarity.color.hex_code}}>{skin.rarity.name}</span></h5>
+			<h5 className={'mb-3'}>Цена: {skin.price}₽</h5>
+			<button onClick={handleAddToCart(skin.id)} className={'btn btn-primary'}>В корзину</button>
 		</div>
 	);
 }

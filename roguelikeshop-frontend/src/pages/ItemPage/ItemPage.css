@@ -1,0 +1,34 @@
+.item-page h1 {
+    font-weight: 700;
+    margin: 0;
+}
+
+.item-page h3 {
+    font-weight: 700;
+    margin: 0;
+}
+
+.item-page h5 {
+    font-weight: 600;
+    margin: 0;
+}
+
+button.btn {
+    background: #FFA873;
+    border-radius: 12px;
+    border: none;
+    padding: 10px 25px;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 800;
+    box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.125);
+}
+
+button.btn:hover {
+    background: #ff8f48;
+}
+
+button.btn:active:hover, button.btn:active:focus {
+    background: #ff731f;
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.125);
+}

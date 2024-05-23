@@ -22,7 +22,7 @@ export default function Header() {
 					<div className="collapse navbar-collapse" id="navbarText">
 						<ul className="navbar-nav">
 							<Link to="/items" className="nav-item nav-link me-3 ms-3">Предметы</Link>
-							<Link to="/items" className="nav-item nav-link me-3">Скины</Link>
+							<Link to="/skins" className="nav-item nav-link me-3">Скины</Link>
 						</ul>
 					</div>
 

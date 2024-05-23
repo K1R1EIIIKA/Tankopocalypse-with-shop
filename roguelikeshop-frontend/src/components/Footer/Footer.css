@@ -1,0 +1,11 @@
+footer {
+    flex-shrink: 0;
+    background-color: #FFA873;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    border-top: 1px solid #ff8f48;
+}

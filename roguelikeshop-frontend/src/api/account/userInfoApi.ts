@@ -3,7 +3,6 @@ import {getRole, Role} from "./RolesApi.ts";
 import {getUserItem, UserItem} from "./userItemsApi.ts";
 import {getUserSkin, UserSkin} from "./userSkinsApi.ts";
 import axios from "axios";
-import {refreshUserInfo} from "../../components/useUserInfo.tsx";
 
 export interface UserInfo {
 	id: number;

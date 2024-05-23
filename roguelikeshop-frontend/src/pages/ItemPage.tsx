@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {getItem, Item} from "../api/shop/itemsApi.ts";
 import {addToCart} from "../api/shop/cart/cartApi.ts";
+import {refreshCart} from "../components/Hooks/useCart.tsx";
 
 export default function ItemPage() {
 	const {id} = useParams<{ id: string }>();
@@ -22,6 +23,7 @@ export default function ItemPage() {
 
 	const handleAddToCart: (itemId: number) => () => void = (itemId) => () => {
 		addToCart(itemId, 'item').then(r => {
+			refreshCart();
 			console.log(r);
 		});
 	}

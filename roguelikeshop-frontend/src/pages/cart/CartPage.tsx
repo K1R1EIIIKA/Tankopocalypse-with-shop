@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {addToCart, Cart, checkout, getCart, removeFromCart} from "../../api/shop/cart/cartApi.ts";
-import {refreshUserInfo} from "../../components/useUserInfo.tsx";
+import {refreshUserInfo} from "../../components/Hooks/useUserInfo.tsx";
+import {refreshCart} from "../../components/Hooks/useCart.tsx";
 
 export default function CartPage() {
 	const [cart, setCart] = useState<Cart | null>(null);
@@ -19,6 +20,7 @@ export default function CartPage() {
 		removeFromCart(itemId, type).then(r => {
 			if (r) {
 				getCart().then((cart) => setCart(cart));
+				refreshCart();
 			}
 		});
 	}
@@ -26,8 +28,8 @@ export default function CartPage() {
 	const handleAddToCart: (itemId: number, type: string) => () => void = (itemId, type) => () => {
 		addToCart(itemId, type).then(r => {
 			if (r) {
-				console.log('Item added to cart')
 				getCart().then((cart) => setCart(cart));
+				refreshCart();
 			}
 		});
 	}
@@ -37,6 +39,7 @@ export default function CartPage() {
 			if (r) {
 				getCart().then((cart) => setCart(cart));
 				refreshUserInfo();
+				refreshCart();
 			}
 		});
 	}

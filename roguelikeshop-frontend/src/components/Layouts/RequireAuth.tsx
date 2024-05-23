@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {Navigate, Outlet, useLocation} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../api/app/hooks";
-import {loadUser} from "../api/app/authActions.ts";
+import {useAppDispatch, useAppSelector} from "../../api/app/hooks.ts";
+import {loadUser} from "../../api/app/authActions.ts";
 
 export default function RequireAuth() {
 	const dispatch = useAppDispatch();

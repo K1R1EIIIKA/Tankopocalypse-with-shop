@@ -1,5 +1,5 @@
 import {Navigate, Outlet} from "react-router-dom";
-import {useAppSelector} from "../api/app/hooks";
+import {useAppSelector} from "../../api/app/hooks.ts";
 
 export default function RequireNotAuth() {
 	const token = useAppSelector((state) => state.auth.token);

@@ -1,0 +1,9 @@
+.m-fixed {
+    margin-top: calc(50px + 1rem);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 79px);
+}

@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {addToCart} from "../api/shop/cart/cartApi.ts";
 import {getSkin, Skin} from "../api/shop/SkinsApi.ts";
+import {refreshCart} from "../components/Hooks/useCart.tsx";
 
 export default function SkinPage() {
 	const {id} = useParams<{ id: string }>();
@@ -22,6 +23,7 @@ export default function SkinPage() {
 
 	const handleAddToCart: (skinId: number) => () => void = (skinId) => () => {
 		addToCart(skinId, 'skin').then(r => {
+			refreshCart();
 			console.log(r);
 		});
 	}

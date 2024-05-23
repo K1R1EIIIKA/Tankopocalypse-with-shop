@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { getUserInfo, UserInfo } from "../api/account/userInfoApi.ts";
-import {useAppSelector} from "../api/app/hooks.ts";
-import {User} from "../api/account/UserApi.ts";
+import { getUserInfo, UserInfo } from "../../api/account/userInfoApi.ts";
+import {useAppSelector} from "../../api/app/hooks.ts";
+import {User} from "../../api/account/UserApi.ts";
 
-let globalSetUserInfo: ((userInfo: UserInfo) => void) | null = null;
+	let globalSetUserInfo: ((userInfo: UserInfo) => void) | null = null;
 
 export function useUserInfo() {
 	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);

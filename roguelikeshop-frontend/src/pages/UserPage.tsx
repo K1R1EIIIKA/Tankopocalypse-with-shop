@@ -3,7 +3,7 @@ import {User} from "../api/account/UserApi.ts";
 import {useEffect, useState} from "react";
 import {getUserItems, UserItem} from "../api/account/userItemsApi.ts";
 import {getUserSkins, UserSkin} from "../api/account/userSkinsApi.ts";
-import {refreshUserInfo, useUserInfo} from "../components/useUserInfo.tsx";
+import {refreshUserInfo} from "../components/Hooks/useUserInfo.tsx";
 import {getUserInfo, motherload, UserInfo} from "../api/account/userInfoApi.ts";
 
 export default function UserPage() {

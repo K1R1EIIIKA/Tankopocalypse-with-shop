@@ -26,6 +26,10 @@ class UserItem(models.Model):
     def price(self):
         return self.item.price * self.count
 
+    @property
+    def unity_id(self):
+        return self.item.unity_id
+
     def __str__(self):
         return str(self.count) + 'x ' + self.item.name
 
@@ -42,6 +46,10 @@ class UserSkin(models.Model):
     @property
     def price(self):
         return self.skin.price * self.count
+
+    @property
+    def unity_id(self):
+        return self.skin.unity_id
 
     def __str__(self):
         return str(self.count) + 'x ' + self.skin.name

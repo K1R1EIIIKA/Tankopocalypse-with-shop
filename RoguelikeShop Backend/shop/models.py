@@ -33,6 +33,7 @@ class BaseItem(models.Model):
     description = models.TextField(verbose_name='Описание')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
     rarity = models.ForeignKey(Rarity, on_delete=models.CASCADE, verbose_name='Редкость')
+    unity_id = models.IntegerField(verbose_name='ID в Unity', unique=True, null=True, blank=True)
 
     def __str__(self):
         return self.name + ' (' + self.rarity.name + ')' + ' - ' + str(self.price) + ' руб.'

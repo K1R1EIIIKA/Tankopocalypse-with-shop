@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Lab_2.Scripts.Lab_2.Scripts;
 using Newtonsoft.Json.Linq;
 
@@ -17,53 +19,26 @@ namespace Lab_2.Scripts
     public class AuthManager : MonoBehaviour
     {
         private string loginUrl = "http://localhost:8000/api/auth/login";
+        private string logoutUrl = "http://localhost:8000/api/auth/logout";
         private LoginResponse loginResponse;
+        
+        public static AuthManager Instance { get; private set; }
 
         private void Awake()
         {
            loginResponse = new LoginResponse();
+           
+           if (Instance == null)
+               Instance = this;
+           else
+               Destroy(gameObject);
         }
 
-        async void Start()
+        private void Update()
         {
-            
-        }
-
-        private async void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                Login("a@b.com", "12345");
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                UserInfo userInfo = await UserInfoManager.GetUserInfo();
-                if (userInfo != null)
-                {
-                    Debug.Log("User ID: " + userInfo.id);
-                    Debug.Log("User Role ID: " + userInfo.role.id);
-                    Debug.Log("User Role Name: " + userInfo.role.name);
-                    Debug.Log("User Role RU Name: " + userInfo.role.ru_name);
-                    Debug.Log("User Balance: " + userInfo.balance);
-                    foreach (var userItem in userInfo.items)
-                    {
-                        Debug.Log("User Item ID: " + userItem.id);
-                        Debug.Log("User Item Unity ID: " + userItem.unityId);
-                        Debug.Log("User Item Count: " + userItem.count);
-                    }
-
-                    foreach (var userSkin in userInfo.skins)
-                    {
-                        Debug.Log("User Skin ID: " + userSkin.id);
-                        Debug.Log("User Skin Unity ID: " + userSkin.unityId);
-                        Debug.Log("User Skin Count: " + userSkin.count);
-                    }
-                }
-                else
-                {
-                    Debug.Log("Failed to get user info.");
-                }
+                Login("d@g.com", "12345");
             }
         }
 
@@ -85,12 +60,7 @@ namespace Lab_2.Scripts
             }
         }
 
-        private void Login(string email, string password)
-        {
-            StartCoroutine(LoginCoroutine(email, password));
-        }
-
-        private IEnumerator LoginCoroutine(string email, string password)
+        public async Task<bool> Login(string email, string password)
         {
             WWWForm form = new WWWForm();
             form.AddField("email", email);
@@ -98,6 +68,38 @@ namespace Lab_2.Scripts
 
             using (UnityWebRequest www = UnityWebRequest.Post(loginUrl, form))
             {
+                await www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    Debug.Log(www.error);
+                    return false;
+                }
+                else
+                {
+                    Debug.Log(www.downloadHandler.text);
+                    // Логика после успешной авторизации
+                    return true;
+                }
+            }
+        }
+
+
+        // private IEnumerator LoginCoroutine(string email, string password)
+        // {
+        //    
+        // }
+        
+        public void Logout()
+        {
+            StartCoroutine(LogoutCoroutine());
+        }
+
+        private IEnumerator LogoutCoroutine()
+        {
+            using (UnityWebRequest www = UnityWebRequest.PostWwwForm(logoutUrl, ""))
+            {
+                www.SetRequestHeader("Authorization", "Bearer " + loginResponse.jwt);
                 yield return www.SendWebRequest();
 
                 if (www.result == UnityWebRequest.Result.ConnectionError ||
@@ -107,11 +109,7 @@ namespace Lab_2.Scripts
                 }
                 else
                 {
-                    var jsonResponse = www.downloadHandler.text;
-                    var loginResponseJson = JObject.Parse(jsonResponse);
-                    loginResponse.jwt = loginResponseJson.Value<string>("jwt");
-                    loginResponse.refreshJwt = loginResponseJson.Value<string>("refresh_jwt");
-                    Debug.Log("Successfully logged in. JWT: " + loginResponse.jwt + " Refresh JWT: " + loginResponse.refreshJwt);
+                    Debug.Log("Successfully logged out");
                 }
             }
         }

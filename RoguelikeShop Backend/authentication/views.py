@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime, timedelta
 
 import jwt
@@ -10,7 +11,7 @@ from authentication.models import User
 from authentication.serializers import UserSerializer
 from account.models import UserInfo, Role
 from shop.models import Cart
-
+import io
 
 class RegisterView(APIView):
     def post(self, request):
@@ -29,10 +30,19 @@ class RegisterView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+def remove_invisible_characters(text):
+    return ''.join(char for char in text if char.isprintable())
+
 class LoginView(APIView):
     def post(self, request):
         email = request.data['email']
         password = request.data['password']
+
+        email = remove_invisible_characters(email)
+        password = remove_invisible_characters(password)
+
+
+        print(email, password, 1111111234)  # Теперь это должно работать корректно
 
         user = User.objects.filter(email=email).first()
         print(user)

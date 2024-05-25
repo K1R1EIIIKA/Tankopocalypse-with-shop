@@ -1,10 +1,11 @@
 using System;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Lab_2.Scripts
+namespace Lab_2.Scripts.Api
 {
     namespace Lab_2.Scripts
     {
@@ -32,7 +33,20 @@ namespace Lab_2.Scripts
             {
                 using (UnityWebRequest www = UnityWebRequest.Get(url))
                 {
-                    await www.SendWebRequest();
+                    // Получение куки из хранилища
+                    string cookie = PlayerPrefs.GetString("cookie");
+                    Debug.Log(string.Join(";", cookie));
+                    
+                    // // Установка куки в заголовок запроса
+                    www.SetRequestHeader("Cookie", cookie);
+                    
+                    Debug.Log(www.GetRequestHeader("Cookie"));
+
+                    var asyncOperation = www.SendWebRequest();
+                    while (!asyncOperation.isDone)
+                    {
+                        await Task.Yield();
+                    }
 
                     if (www.result == UnityWebRequest.Result.ConnectionError ||
                         www.result == UnityWebRequest.Result.ProtocolError)

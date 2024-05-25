@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Lab_2.Scripts
+namespace Lab_2.Scripts.Api
 {
     [Serializable]
     public class UserSkin

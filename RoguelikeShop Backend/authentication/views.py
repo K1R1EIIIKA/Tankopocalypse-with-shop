@@ -13,6 +13,7 @@ from account.models import UserInfo, Role
 from shop.models import Cart
 import io
 
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -33,6 +34,7 @@ class RegisterView(APIView):
 def remove_invisible_characters(text):
     return ''.join(char for char in text if char.isprintable())
 
+
 class LoginView(APIView):
     def post(self, request):
         email = request.data['email']
@@ -40,9 +42,7 @@ class LoginView(APIView):
 
         email = remove_invisible_characters(email)
         password = remove_invisible_characters(password)
-
-
-        print(email, password, 1111111234)  # Теперь это должно работать корректно
+        print(email, password, 12345)
 
         user = User.objects.filter(email=email).first()
         print(user)
@@ -55,15 +55,16 @@ class LoginView(APIView):
             print(1111111)
             raise AuthenticationFailed('Неверный пароль')
 
+        print(2222222)
         access_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=3600),
+            'exp': datetime.utcnow() + timedelta(seconds=5),
             'iat': datetime.utcnow()
         }
 
         refresh_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=3600*24),
+            'exp': datetime.utcnow() + timedelta(seconds=3600 * 24),
             'iat': datetime.utcnow()
         }
 

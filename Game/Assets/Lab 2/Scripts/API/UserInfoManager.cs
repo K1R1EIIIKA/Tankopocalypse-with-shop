@@ -23,7 +23,7 @@ namespace Lab_2.Scripts.Api
         public static class UserInfoManager
         {
             private const string URL = "http://localhost:8000/api/account/user-info/";
-
+            
             public static async UniTask<UserInfo> GetUserInfo()
             {
                 return await GetUserInfoAsync(URL);
@@ -73,6 +73,12 @@ namespace Lab_2.Scripts.Api
                     };
                 }
             }
+
+            public static async UniTask RefreshUserInfo()
+            {
+                AuthManager.Instance.UserInfoData = await GetUserInfo();
+            }
+
         }
     }
 }

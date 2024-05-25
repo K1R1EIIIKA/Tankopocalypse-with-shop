@@ -58,7 +58,7 @@ class LoginView(APIView):
         print(2222222)
         access_token_payload = {
             'id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=5),
+            'exp': datetime.utcnow() + timedelta(seconds=3600 * 24),
             'iat': datetime.utcnow()
         }
 

@@ -12,13 +12,13 @@ class RoleSerializer(serializers.ModelSerializer):
 class UserItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserItem
-        fields = '__all__'
+        fields = ['id', 'user', 'item', 'count', 'price', 'unity_id']
 
 
 class UserSkinSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSkin
-        fields = '__all__'
+        fields = ['id', 'user', 'skin', 'count', 'price', 'unity_id']
 
 
 class UserInfoSerializer(serializers.ModelSerializer):

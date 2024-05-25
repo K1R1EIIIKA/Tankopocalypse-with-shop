@@ -2,6 +2,7 @@ using Lab_2.Scripts.Api;
 using Lab_2.Scripts.Api.Lab_2.Scripts;
 using TMPro;
 using UnityEngine;
+using Lab_2.Scripts.Inventory;
 
 namespace Lab_2.Scripts.UI
 {
@@ -13,7 +14,6 @@ namespace Lab_2.Scripts.UI
         [SerializeField] private GameObject _loginPanelUI;
         [SerializeField] private GameObject _userPanelUI;
 
-        public UserInfo UserInfoObject { get; private set; }
         public static LoginPanel Instance { get; private set; }
 
         private void Awake()
@@ -39,6 +39,8 @@ namespace Lab_2.Scripts.UI
         {
             bool loginSuccess = await AuthManager.Instance.Login(_loginInputField.text, _passwordInputField.text);
 
+            Debug.Log(loginSuccess);
+
             if (loginSuccess)
                 OpenUserPanel();
             else
@@ -55,14 +57,21 @@ namespace Lab_2.Scripts.UI
 
         private async void OpenUserPanel()
         {
-            UserInfoObject = await UserInfoManager.GetUserInfo();
+            await UserInfoManager.RefreshUserInfo();
 
-            if (UserInfoObject == null)
+            if (AuthManager.Instance.UserInfoData == null)
+            {
+                Debug.LogError("UserInfoData is null");
                 return;
+            }
+
+            Debug.Log("User info loaded successfully");
 
             _loginPanelUI.SetActive(false);
             _userPanelUI.SetActive(true);
-            UserPanel.Instance.SetUserData(UserInfoObject);
+            UserPanel.Instance.SetUserData(AuthManager.Instance.UserInfoData);
+            Inventory.Inventory.Instance.Init();
         }
+
     }
 }

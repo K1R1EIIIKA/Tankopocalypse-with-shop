@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Lab_2.Scripts.Api.Lab_2.Scripts;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -17,6 +18,8 @@ namespace Lab_2.Scripts.Api
 
     public class AuthManager : MonoBehaviour
     {
+        public UserInfo UserInfoData { get; set; }
+
         private string loginUrl = "http://localhost:8000/api/auth/login";
         private string logoutUrl = "http://localhost:8000/api/auth/logout";
         private LoginResponse loginResponse;

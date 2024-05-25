@@ -1,16 +1,22 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Lab_2.Scripts.Item
 {
     public class InventoryItem : MonoBehaviour
     {
-        public ConsumableItem consumableItem;
         public int count;
         public TextMeshProUGUI CountText;
         public bool IsSelected;
         public GameObject SelectedBorder;
+        public ConsumableItem ConsumableItem;
+        
+        public void SetIcon(Sprite icon)
+        {
+            GetComponent<Image>().sprite = icon;
+        }
         
         public void SetCount(int itemCount)
         {
@@ -28,6 +34,12 @@ namespace Lab_2.Scripts.Item
         {
             IsSelected = false;
             SelectedBorder.SetActive(false);
+        }
+
+        public void Use()
+        {
+            SetCount(--count);
+            ConsumableItem.Use();
         }
     }
 }

@@ -6,5 +6,7 @@ namespace Lab_2.Scripts.Item
     {
         public int Id;
         public string Name;
+        
+        public abstract void Use();
     }
 }

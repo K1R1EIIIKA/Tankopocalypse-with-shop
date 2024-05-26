@@ -95,6 +95,9 @@ namespace Lab_2.Scripts.Inventory
             
             if (Input.GetKeyDown(KeyCode.E))
                 UseSelectedItem();
+            
+            if(Input.GetKeyDown(KeyCode.Q))
+                UserItemManager.PostUserItems(Items);
         }
 
         private void HandleScrollWheel()
@@ -116,6 +119,12 @@ namespace Lab_2.Scripts.Inventory
                 return;
             
             selectedItem.Use();
+            
+            if (selectedItem.count == 0)
+            {
+                Destroy(selectedItem.gameObject);
+                Items.Remove(selectedItem);
+            }
         }
         
         // TODO: сделать сохранение инвентаря на серв

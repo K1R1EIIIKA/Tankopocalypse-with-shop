@@ -1,13 +1,15 @@
-from django.http import Http404
+from django.http import Http404, QueryDict
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import json
 
 from account.serializer import *
 from authentication.models import User
+from shop.models import Item
 
 
 class RoleListCreate(generics.ListCreateAPIView):
@@ -27,6 +29,41 @@ class UserItemListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return UserItem.objects.filter(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        user_items_data = self.request.data
+        if type(user_items_data) == QueryDict:
+            json_str = list(user_items_data.keys())[0]
+            user_items_data = json.loads(json_str)
+
+        print(user_items_data)
+
+        ids = [item['id'] for item in user_items_data]
+        for item in UserItem.objects.filter(user=user):
+            if item.item.id not in ids:
+                item.delete()
+
+        for data in user_items_data:
+            item = Item.objects.get(unity_id=data['id'])
+            user_item = UserItem.objects.filter(user=user, item=item).first()
+            if user_item is None:
+                user_item = UserItem.objects.create(user=user, item=item, count=data['count'])
+                user_item.save()
+
+            else:
+                user_item.count = data['count']
+                user_item.save()
+
+            if data['count'] <= 0:
+                user_item.delete()
+
+        user_info = UserInfo.objects.get(user=user)
+        user_info.items.clear()
+        for item in UserItem.objects.filter(user=user):
+            user_info.items.add(item)
+
+        return Response({'message': 'User items added'}, status=status.HTTP_200_OK)
 
 
 class UserItemRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):

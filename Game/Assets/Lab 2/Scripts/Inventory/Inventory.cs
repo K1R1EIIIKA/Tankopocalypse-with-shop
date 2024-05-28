@@ -54,7 +54,8 @@ namespace Lab_2.Scripts.Inventory
 
             foreach (var item in AuthManager.Instance.UserInfoData.items)
             {
-                Debug.Log(item.unityId + " " + item.count + " " + ItemPool.Items.Find(i => i.ConsumableItem.Id == item.unityId));
+                Debug.Log(item.unityId + " " + item.count + " " +
+                          ItemPool.Items.Find(i => i.ConsumableItem.Id == item.unityId));
 
                 var inventoryItemObject = ItemPool.Items.Find(i => i.ConsumableItem.Id == item.unityId);
                 var inventoryItem = Instantiate(inventoryItemObject.Item, transform);
@@ -92,11 +93,11 @@ namespace Lab_2.Scripts.Inventory
         private void Update()
         {
             HandleScrollWheel();
-            
+
             if (Input.GetKeyDown(KeyCode.E))
                 UseSelectedItem();
-            
-            if(Input.GetKeyDown(KeyCode.Q))
+
+            if (Input.GetKeyDown(KeyCode.Q))
                 UserItemManager.PostUserItems(Items);
         }
 
@@ -111,23 +112,20 @@ namespace Lab_2.Scripts.Inventory
             else if (scroll < 0)
                 ScrollItems(-1);
         }
-        
+
         private void UseSelectedItem()
         {
             var selectedItem = Items.Find(i => i.IsSelected);
             if (selectedItem == null)
                 return;
-            
+
             selectedItem.Use();
-            
+
             if (selectedItem.count == 0)
             {
                 Destroy(selectedItem.gameObject);
                 Items.Remove(selectedItem);
             }
         }
-        
-        // TODO: сделать сохранение инвентаря на серв
-        // TODO: (чтобы отсутствующие предметы удалились из бд (надо будет кинуть пост в котором будет гет на получение всех айтемов))
     }
 }

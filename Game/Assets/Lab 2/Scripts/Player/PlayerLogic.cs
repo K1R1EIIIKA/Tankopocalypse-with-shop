@@ -1,0 +1,74 @@
+using System;
+using Cinemachine;
+using UnityEngine;
+
+namespace Lab_2.Scripts.Player
+{
+    public class PlayerLogic : MonoBehaviour
+    {
+        public PlayerStats currentStats;
+        public PlayerStats baseStats;
+        
+        public float rotationSpeed = 10f;
+
+        private Animator _animator;
+        private Camera _camera;
+        [SerializeField] private Transform _gunBarrel;
+
+        public static PlayerLogic Instance { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+            
+            _animator = GetComponent<Animator>();
+            _camera = Camera.main;
+        }
+
+        private void Start()
+        {
+            currentStats = baseStats.Clone();
+        }
+
+        private void Update()
+        {
+            Move();
+            Debug.Log(_gunBarrel.rotation.eulerAngles + " " + Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 90f, 0f, 0f).eulerAngles);
+        }
+
+        private void Move()
+        {
+            Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            transform.Translate(direction * (currentStats.Speed * Time.deltaTime));
+            
+            // if (direction != Vector3.zero && CameraLogic.Instance.IsCursorLocked)
+            {
+                Rotate();
+            }
+
+            if (direction != Vector3.zero)
+            {
+                _animator.SetBool("IsMoving", true);
+            }
+
+            if (direction == Vector3.zero)
+            {
+                _animator.SetBool("IsMoving", false);
+            }
+        }
+
+        private void Rotate()
+        {
+            var cameraRotation = _camera.transform.rotation;
+            cameraRotation.x = 0;
+            cameraRotation.z = 0;
+            transform.rotation = Quaternion.Slerp(transform.rotation, cameraRotation, rotationSpeed * Time.deltaTime);
+
+            _gunBarrel.rotation = Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 90f, transform.rotation.eulerAngles.y, 0f);
+            Debug.Log(_gunBarrel.rotation.eulerAngles + " " + Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 90f, 0f, 0f).eulerAngles);
+        }
+    }
+}

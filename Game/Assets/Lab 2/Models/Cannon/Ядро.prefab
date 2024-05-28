@@ -52,6 +52,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u042F\u0434\u0440\u043E"
       objectReference: {fileID: 0}
+    - target: {fileID: 8632055958874330854, guid: 64cab3445b110744ab632fed4c364c2a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632055958874330854, guid: 64cab3445b110744ab632fed4c364c2a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8632055958874330854, guid: 64cab3445b110744ab632fed4c364c2a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -4824168191597581651, guid: 64cab3445b110744ab632fed4c364c2a, type: 3}

@@ -8,7 +8,7 @@ namespace Lab_2.Scripts.Player
     {
         public PlayerStats currentStats;
         public PlayerStats baseStats;
-        
+
         public float rotationSpeed = 10f;
 
         private Animator _animator;
@@ -23,7 +23,7 @@ namespace Lab_2.Scripts.Player
                 Instance = this;
             else
                 Destroy(gameObject);
-            
+
             _animator = GetComponent<Animator>();
             _camera = Camera.main;
         }
@@ -36,18 +36,15 @@ namespace Lab_2.Scripts.Player
         private void Update()
         {
             Move();
-            Debug.Log(_gunBarrel.rotation.eulerAngles + " " + Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 90f, 0f, 0f).eulerAngles);
+            
+            if (CameraLogic.Instance.IsCursorLocked)
+                Rotate();
         }
 
         private void Move()
         {
             Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             transform.Translate(direction * (currentStats.Speed * Time.deltaTime));
-            
-            // if (direction != Vector3.zero && CameraLogic.Instance.IsCursorLocked)
-            {
-                Rotate();
-            }
 
             if (direction != Vector3.zero)
             {
@@ -67,8 +64,8 @@ namespace Lab_2.Scripts.Player
             cameraRotation.z = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, cameraRotation, rotationSpeed * Time.deltaTime);
 
-            _gunBarrel.rotation = Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 90f, transform.rotation.eulerAngles.y, 0f);
-            Debug.Log(_gunBarrel.rotation.eulerAngles + " " + Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 90f, 0f, 0f).eulerAngles);
+            _gunBarrel.rotation = Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 90f,
+                transform.rotation.eulerAngles.y, 0f);
         }
     }
 }

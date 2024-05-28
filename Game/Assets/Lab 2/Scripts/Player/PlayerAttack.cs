@@ -24,9 +24,12 @@ namespace Lab_2.Scripts.Player
 
         private void Shoot()
         {
-            GameObject bullet = Instantiate(_bulletPrefab, _gunBarrel.position, _gunBarrel.rotation, _bulletSpawnPoint);
+            GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-            bulletRb.AddForce(_gunBarrel.forward * _bulletSpeed, ForceMode.Impulse);
+
+            Debug.Log(_gunBarrel.up);
+            var force = _bulletSpeed * new Vector3(_gunBarrel.up.x * -1 , _gunBarrel.up.y * -1, _gunBarrel.up.z * -1) ;
+            bulletRb.AddForce(force, ForceMode.Impulse); 
             
             StartCoroutine(ShootCooldown());
         }

@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Red Target
       objectReference: {fileID: 0}
+    - target: {fileID: 7202271454713460447, guid: 53c12b66495fb794aa1d910a4b8fed6d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 09e97d20d11fbed478d91ca0a45e8eb6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -8700617353114198275, guid: 53c12b66495fb794aa1d910a4b8fed6d, type: 3}
@@ -64,6 +68,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 53c12b66495fb794aa1d910a4b8fed6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 596898509631362140}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 53c12b66495fb794aa1d910a4b8fed6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5580782638972095956}
   m_SourcePrefab: {fileID: 100100000, guid: 53c12b66495fb794aa1d910a4b8fed6d, type: 3}
 --- !u!1 &4978577650848072320 stripped
 GameObject:
@@ -109,3 +116,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.4032991, y: 3.3263702, z: 2.0682054}
   m_Center: {x: -0.7944838, y: -0.6403265, z: -0.011244059}
+--- !u!95 &5580782638972095956
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4978577650848072320}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 787d6a5b2acd04345949572ce03e103d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

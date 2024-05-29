@@ -1,4 +1,5 @@
 using System;
+using Lab_2.Scripts.Player;
 using Lab_2.Scripts.UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -27,7 +28,7 @@ namespace Lab_2.Scripts.Target
             if (!other.gameObject.CompareTag("Bullet")) return;
             if (_isBroken) return;
 
-            TakeDamage(1);
+            TakeDamage(PlayerLogic.Instance.currentStats.Damage);
             if (_health <= 0)
                 DestroyTargetWithScore(_score, other);
         }

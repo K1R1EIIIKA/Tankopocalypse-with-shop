@@ -6,7 +6,7 @@ namespace Lab_2.Scripts.Player
     public class BulletExplosion : MonoBehaviour
     {
         [SerializeField] private ParticleSystem _explosion;
-        
+
         private void OnCollisionEnter(Collision other)
         {
             Explode();

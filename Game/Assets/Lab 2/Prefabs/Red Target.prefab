@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 53c12b66495fb794aa1d910a4b8fed6d, type: 3}
       propertyPath: m_Name
-      value: target1
+      value: Red Target
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08de44941404198b1d5b2a0dce969a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explosion: {fileID: 7014853026474370905, guid: 890512c1082e88b4cb85646c903ba8ca, type: 3}
+  _explosion: {fileID: 7671859730018950510, guid: 8460384c9d5565a44bfcde8a4d53a63d, type: 3}
   _replacement: {fileID: 1345969375036105156, guid: 17894e3bbdc62f44fb57ee85810c1adb, type: 3}
   _breakForce: 2
   _collisionMultiplier: 30

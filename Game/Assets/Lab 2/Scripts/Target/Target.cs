@@ -7,7 +7,7 @@ namespace Lab_2.Scripts.Target
 {
     public abstract class Target : MonoBehaviour
     {
-        [SerializeField] protected ParticleSystem _explosion;
+        [SerializeField] protected GameObject _explosion;
         [SerializeField] private GameObject _replacement;
         [SerializeField] protected float _breakForce = 2f;
         [SerializeField] protected float _collisionMultiplier = 100f;
@@ -54,9 +54,12 @@ namespace Lab_2.Scripts.Target
             }
 
             ScoreLogic.Instance.AddScore(score);
-            _explosion.Play();
+            var explosion = Instantiate(_explosion, transform.position, Quaternion.identity);
+            explosion.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.z - 90f, 0, 0);
+            explosion.GetComponent<ParticleSystem>().Play();
 
             Destroy(gameObject);
+            Destroy(explosion, 2f);
         }
 
         public void TakeDamage(int damage)

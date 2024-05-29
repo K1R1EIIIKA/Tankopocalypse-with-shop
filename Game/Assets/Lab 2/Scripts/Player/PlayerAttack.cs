@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Lab_2.Scripts.Player
@@ -11,12 +10,12 @@ namespace Lab_2.Scripts.Player
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private GameObject _bulletPrefab;
         [SerializeField] private float _bulletSpeed = 10f;
-        
+
         private bool _canShoot = true;
-        
+
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) && _canShoot)
+            if (Input.GetMouseButtonDown(0) && _canShoot && CameraLogic.Instance.IsCursorLocked)
             {
                 Shoot();
             }
@@ -28,9 +27,9 @@ namespace Lab_2.Scripts.Player
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
 
             Debug.Log(_gunBarrel.up);
-            var force = _bulletSpeed * new Vector3(_gunBarrel.up.x * -1 , _gunBarrel.up.y * -1, _gunBarrel.up.z * -1) ;
-            bulletRb.AddForce(force, ForceMode.Impulse); 
-            
+            var force = _bulletSpeed * new Vector3(_gunBarrel.up.x * -1, _gunBarrel.up.y * -1, _gunBarrel.up.z * -1);
+            bulletRb.AddForce(force, ForceMode.Impulse);
+
             StartCoroutine(ShootCooldown());
         }
 

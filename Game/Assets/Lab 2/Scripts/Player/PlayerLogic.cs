@@ -64,7 +64,7 @@ namespace Lab_2.Scripts.Player
             cameraRotation.z = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, cameraRotation, rotationSpeed * Time.deltaTime);
 
-            _gunBarrel.rotation = Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 90f,
+            _gunBarrel.rotation = Quaternion.Euler(_camera.transform.rotation.eulerAngles.x - 105f,
                 transform.rotation.eulerAngles.y, 0f);
         }
     }

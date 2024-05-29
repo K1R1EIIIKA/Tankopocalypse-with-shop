@@ -197,12 +197,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 794fbdf01741d2e488d0a177bf89e324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explosion: {fileID: 7671859730018950510, guid: 8460384c9d5565a44bfcde8a4d53a63d, type: 3}
+  _explosion: {fileID: 3506384995009450155, guid: 468fcfd495545f7449eb649e3320d7aa, type: 3}
   _replacement: {fileID: 1345969375036105156, guid: 6ba3cd4f76f87a8448efbfec3c612e8c, type: 3}
   _breakForce: 2
   _collisionMultiplier: 30
   _health: 1
   _score: 10
+  _soundName: StrongExplosion
   _explodeCollider: {fileID: 2307079292628752609}
 --- !u!54 &3665707987584417871
 Rigidbody:

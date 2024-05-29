@@ -1,4 +1,5 @@
 using System;
+using Lab_2.Scripts.Audio;
 using Lab_2.Scripts.Player;
 using Lab_2.Scripts.UI;
 using UnityEngine;
@@ -14,14 +15,10 @@ namespace Lab_2.Scripts.Target
         [SerializeField] protected float _collisionMultiplier = 100f;
         [SerializeField] protected int _health = 1;
         [SerializeField] protected int _score = 10;
+        
+        [SerializeField] private string _soundName;
 
-        protected Rigidbody _rb;
         protected bool _isBroken;
-
-        private void Awake()
-        {
-            _rb = GetComponent<Rigidbody>();
-        }
 
         private void OnCollisionEnter(Collision other)
         {
@@ -29,6 +26,7 @@ namespace Lab_2.Scripts.Target
             if (_isBroken) return;
 
             TakeDamage(PlayerLogic.Instance.currentStats.Damage);
+            AudioManager.Instance.Play(_soundName);
             if (_health <= 0)
                 DestroyTargetWithBullet(other);
         }

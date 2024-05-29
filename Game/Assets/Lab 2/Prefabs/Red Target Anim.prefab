@@ -181,6 +181,7 @@ MonoBehaviour:
   _collisionMultiplier: 30
   _health: 1
   _score: 10
+  _soundName: ShortExplosion
 --- !u!54 &6591167030747136085
 Rigidbody:
   m_ObjectHideFlags: 0

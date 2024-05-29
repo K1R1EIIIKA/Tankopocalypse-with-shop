@@ -94,11 +94,12 @@ GameObject:
   - component: {fileID: 1459659671933713205}
   - component: {fileID: 5932922853200770899}
   - component: {fileID: 1688719926594170587}
-  - component: {fileID: 1572540403617663444}
-  - component: {fileID: 6591167030747136085}
+  - component: {fileID: 2307079292628752609}
+  - component: {fileID: 6118600552847814695}
+  - component: {fileID: 3665707987584417871}
   m_Layer: 0
   m_Name: target1 (2)
-  m_TagString: Untagged
+  m_TagString: ExplodeTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,7 +164,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1572540403617663444
+--- !u!135 &2307079292628752609
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236617827796787599}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 7.151952
+  m_Center: {x: -0.79872847, y: -0.61177015, z: 0}
+--- !u!114 &6118600552847814695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,16 +194,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2236617827796787599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e08de44941404198b1d5b2a0dce969a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 794fbdf01741d2e488d0a177bf89e324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _explosion: {fileID: 7671859730018950510, guid: 8460384c9d5565a44bfcde8a4d53a63d, type: 3}
-  _replacement: {fileID: 1345969375036105156, guid: 17894e3bbdc62f44fb57ee85810c1adb, type: 3}
+  _replacement: {fileID: 1345969375036105156, guid: 6ba3cd4f76f87a8448efbfec3c612e8c, type: 3}
   _breakForce: 2
   _collisionMultiplier: 30
   _health: 1
   _score: 10
---- !u!54 &6591167030747136085
+  _explodeCollider: {fileID: 2307079292628752609}
+--- !u!54 &3665707987584417871
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -269,7 +292,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 09e97d20d11fbed478d91ca0a45e8eb6, type: 2}
+  - {fileID: 2100000, guid: d740c6cd8cd8e664898fa448fc5b6183, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -301,7 +324,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9090328055778110737}
   m_Layer: 0
-  m_Name: Red Target Anim
+  m_Name: Green Target Anim 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

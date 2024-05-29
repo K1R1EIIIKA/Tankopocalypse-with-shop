@@ -30,7 +30,16 @@ namespace Lab_2.Scripts.Target
 
             TakeDamage(PlayerLogic.Instance.currentStats.Damage);
             if (_health <= 0)
-                DestroyTargetWithScore(_score, other);
+                DestroyTargetWithBullet(other);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.gameObject.CompareTag("ExplodeTarget")) return;
+            Debug.Log(other.gameObject.name + " " + gameObject.name);
+            if (_isBroken) return;
+            
+            DestroyTargetWithExplosion(other);
         }
 
         public void DestroyTarget(float time)
@@ -38,11 +47,16 @@ namespace Lab_2.Scripts.Target
             Destroy(gameObject, time);
         }
 
-        public virtual void DestroyTargetWithScore(int score, Collision other)
+        protected abstract void CustomDestroy(Collision other);
+
+        private void DestroyTargetWithBullet(Collision other)
         {
             if (!(other.relativeVelocity.magnitude >= _breakForce)) return;
 
             _isBroken = true;
+
+            CustomDestroy(other);
+
             var replacement = Instantiate(_replacement, transform.position, transform.rotation);
             var rbs = replacement.GetComponentsInChildren<Rigidbody>();
 
@@ -50,20 +64,49 @@ namespace Lab_2.Scripts.Target
             {
                 rb.AddExplosionForce(other.relativeVelocity.magnitude * _collisionMultiplier, other.contacts[0].point,
                     2);
-                
+
                 Destroy(rb.gameObject, Random.Range(3f, 5f));
             }
 
-            ScoreLogic.Instance.AddScore(score);
+            ScoreLogic.Instance.AddScore(_score);
             var explosion = Instantiate(_explosion, transform.position, Quaternion.identity);
             explosion.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.z - 90f, 0, 0);
+
             explosion.GetComponent<ParticleSystem>().Play();
 
-            Destroy(gameObject);
+            Destroy(replacement, 5f);
+            Destroy(gameObject.transform.parent.gameObject, 0.05f);
+            Destroy(explosion, 2f);
+        }
+        
+        private void DestroyTargetWithExplosion(Collider other)
+        {
+            _isBroken = true;
+
+            CustomDestroy(new Collision());
+
+            var replacement = Instantiate(_replacement, transform.position, transform.rotation);
+            var rbs = replacement.GetComponentsInChildren<Rigidbody>();
+
+            foreach (var rb in rbs)
+            {
+                rb.AddExplosionForce(1000, other.transform.position, 3);
+
+                Destroy(rb.gameObject, Random.Range(3f, 5f));
+            }
+
+            ScoreLogic.Instance.AddScore(_score * 2);
+            var explosion = Instantiate(_explosion, transform.position, Quaternion.identity);
+            explosion.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.z - 90f, 0, 0);
+
+            explosion.GetComponent<ParticleSystem>().Play();
+
+            Destroy(replacement, 5f);
+            Destroy(gameObject.transform.parent.gameObject, 0.05f);
             Destroy(explosion, 2f);
         }
 
-        public void TakeDamage(int damage)
+        private void TakeDamage(int damage)
         {
             _health -= damage;
         }

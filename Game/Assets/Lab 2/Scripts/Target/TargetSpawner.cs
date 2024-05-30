@@ -9,7 +9,7 @@ namespace Lab_2.Scripts.Target
     {
         [SerializeField] private List<TargetCluster> _targetClusters;
         [SerializeField] private List<Transform> _spawnPoints;
-        [SerializeField] private float _spawnInterval;
+        [SerializeField] private float _spawnInterval = 2;
 
         private void Start()
         {
@@ -37,11 +37,7 @@ namespace Lab_2.Scripts.Target
 
                     yield return new WaitForSeconds(_spawnInterval);
                 }
-                else
-                {
-                    
-                }
-
+                
                 yield return new WaitForSeconds(0.5f);
             }
         }

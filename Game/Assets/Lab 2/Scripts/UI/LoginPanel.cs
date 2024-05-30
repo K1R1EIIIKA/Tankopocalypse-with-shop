@@ -16,32 +16,18 @@ namespace Lab_2.Scripts.UI
 
         public static LoginPanel Instance { get; private set; }
 
-        private async void Awake()
+        private void Awake()
         {
             if (Instance == null)
                 Instance = this;
             else
                 Destroy(gameObject);
-            
-            // var userResults = await UserResultsManager.GetUserResults();
-            // if (userResults != null)
-            // {
-            //     foreach (var userResult in userResults)
-            //     {
-            //         Debug.Log($"ID: {userResult.id}, User: {userResult.user}, Score: {userResult.score}");
-            //     }
-            // }
-            // else
-            // {
-            //     Debug.Log("Failed to retrieve user results.");
-            // }
         }
 
         private async void Start()
         {
             await UserInfoManager.GetUserInfo();
-            // Debug.Log(UserInfoManager.IsAuthorized);
-            // Debug.Log(PlayerPrefs.GetString("cookie"));
+            
             if (UserInfoManager.IsAuthorized)
                 OpenUserPanel();
 

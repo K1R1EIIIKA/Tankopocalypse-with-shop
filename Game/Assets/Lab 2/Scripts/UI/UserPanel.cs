@@ -1,12 +1,14 @@
 using Lab_2.Scripts.Api.Lab_2.Scripts;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Lab_2.Scripts.UI
 {
     public class UserPanel : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _userInfoText;
+        [SerializeField] private TextMeshProUGUI _userHelloText;
         
         public static UserPanel Instance { get; private set; }
 
@@ -25,6 +27,9 @@ namespace Lab_2.Scripts.UI
                                  $"User Role Name: {userInfo.role.name}\n" +
                                  $"User Role RU Name: {userInfo.role.ru_name}\n" +
                                  $"User Balance: {userInfo.balance}\n";
+            
+            if (SceneManager.GetActiveScene().name == "Main Menu")
+                _userHelloText.text = $"Привет, {userInfo.name}!";
             // foreach (var userItem in userInfo.items)
             // {
             //     _userInfoText.text += $"User Item ID: {userItem.id}\n" +

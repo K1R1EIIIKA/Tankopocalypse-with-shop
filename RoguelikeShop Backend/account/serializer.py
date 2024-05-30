@@ -24,10 +24,10 @@ class UserSkinSerializer(serializers.ModelSerializer):
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
-        fields = '__all__'
+        fields = ['id', 'user', 'balance', 'items', 'skins', 'role', 'results', 'name']
 
 
 class UserResultsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserResults
-        fields = '__all__'
+        fields = ['id', 'user', 'score', 'name']

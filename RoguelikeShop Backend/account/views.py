@@ -131,8 +131,14 @@ class UserResultsListCreate(generics.ListCreateAPIView):
     serializer_class = UserResultsSerializer
 
     def post(self, request, *args, **kwargs):
-        user_id = request.data.get('user_id')
-        score = request.data.get('score')
+        user_results_data = request.data
+
+        if type(user_results_data) is QueryDict:
+            json_str = list(user_results_data.keys())[0]
+            user_results_data = json.loads(json_str)
+
+        user_id = user_results_data['user_id']
+        score = user_results_data['score']
 
         user = User.objects.get(id=user_id)
         user_info = UserInfo.objects.get(user=user)

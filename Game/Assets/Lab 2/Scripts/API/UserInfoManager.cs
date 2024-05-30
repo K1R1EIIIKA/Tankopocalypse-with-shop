@@ -14,6 +14,7 @@ namespace Lab_2.Scripts.Api
         {
             public int id;
             public int user;
+            public string name;
             public Role role;
             public float balance;
             public UserItem[] items;
@@ -71,6 +72,7 @@ namespace Lab_2.Scripts.Api
                     {
                         id = userInfoJson.Value<int>("id"),
                         user = userInfoJson.Value<int>("user"),
+                        name = userInfoJson.Value<string>("name"),
                         role = role,
                         balance = userInfoJson.Value<float>("balance"),
                         items = items,

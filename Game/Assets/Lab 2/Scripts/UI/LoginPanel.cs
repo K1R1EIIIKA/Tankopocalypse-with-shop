@@ -16,12 +16,25 @@ namespace Lab_2.Scripts.UI
 
         public static LoginPanel Instance { get; private set; }
 
-        private void Awake()
+        private async void Awake()
         {
             if (Instance == null)
                 Instance = this;
             else
                 Destroy(gameObject);
+            
+            // var userResults = await UserResultsManager.GetUserResults();
+            // if (userResults != null)
+            // {
+            //     foreach (var userResult in userResults)
+            //     {
+            //         Debug.Log($"ID: {userResult.id}, User: {userResult.user}, Score: {userResult.score}");
+            //     }
+            // }
+            // else
+            // {
+            //     Debug.Log("Failed to retrieve user results.");
+            // }
         }
 
         private async void Start()
@@ -38,7 +51,7 @@ namespace Lab_2.Scripts.UI
                 OpenUserPanel();
                 CloseLoginPanel();
             }
-            else
+            else if (SceneManager.GetActiveScene().name == "Main Menu" && !UserInfoManager.IsAuthorized)
             {
                 OpenLoginPanel();
                 CloseUserPanel();

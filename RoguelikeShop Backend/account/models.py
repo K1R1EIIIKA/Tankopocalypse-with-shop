@@ -67,6 +67,10 @@ class UserInfo(models.Model):
     skins = models.ManyToManyField(UserSkin, verbose_name='Скины', blank=True)
     results = models.ManyToManyField('UserResults', verbose_name='Результаты', blank=True)
 
+    @property
+    def name(self):
+        return self.user.name
+
     def __str__(self):
         return self.user.name + ' - ' + str(self.balance) + ' руб.'
 
@@ -78,6 +82,10 @@ class UserInfo(models.Model):
 class UserResults(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     score = models.IntegerField(verbose_name='Счет', default=0)
+
+    @property
+    def name(self):
+        return self.user.name
 
     def __str__(self):
         return self.user.name + ' - ' + str(self.score) + ' очков'

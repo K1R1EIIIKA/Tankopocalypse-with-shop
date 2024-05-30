@@ -16,14 +16,21 @@ namespace Lab_2.Scripts.Target
         [SerializeField] protected int _health = 1;
         [SerializeField] protected int _score = 10;
         
+        [SerializeField] private float _deathTime = 7f;
+        
         [SerializeField] private string _soundName;
 
-        protected bool _isBroken;
+        public bool IsBroken;
+
+        private void Start()
+        {
+            Destroy(gameObject.transform.parent.gameObject, _deathTime);
+        }
 
         private void OnCollisionEnter(Collision other)
         {
             if (!other.gameObject.CompareTag("Bullet")) return;
-            if (_isBroken) return;
+            if (IsBroken) return;
 
             TakeDamage(PlayerLogic.Instance.currentStats.Damage);
             AudioManager.Instance.Play(_soundName);
@@ -35,7 +42,7 @@ namespace Lab_2.Scripts.Target
         {
             if (!other.gameObject.CompareTag("ExplodeTarget")) return;
             Debug.Log(other.gameObject.name + " " + gameObject.name);
-            if (_isBroken) return;
+            if (IsBroken) return;
             
             DestroyTargetWithExplosion(other);
         }
@@ -51,7 +58,7 @@ namespace Lab_2.Scripts.Target
         {
             if (!(other.relativeVelocity.magnitude >= _breakForce)) return;
 
-            _isBroken = true;
+            IsBroken = true;
 
             CustomDestroy(other);
 
@@ -79,7 +86,7 @@ namespace Lab_2.Scripts.Target
         
         private void DestroyTargetWithExplosion(Collider other)
         {
-            _isBroken = true;
+            IsBroken = true;
 
             CustomDestroy(new Collision());
 

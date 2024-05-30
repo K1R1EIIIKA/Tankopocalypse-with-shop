@@ -21,18 +21,7 @@ namespace Lab_2.Scripts.Player
             else
                 Destroy(gameObject);
             
-            UnlockCursor();
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (IsCursorLocked)
-                    UnlockCursor();
-                else
-                    LockCursor();
-            }
+            LockCursor();
         }
 
         public void LockCursor()

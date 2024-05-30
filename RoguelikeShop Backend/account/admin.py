@@ -9,6 +9,7 @@ admin.site.register(UserItem)
 admin.site.register(UserSkin)
 admin.site.register(Role)
 
+
 @admin.register(UserResults)
 class Admin(admin.ModelAdmin):
     list_display = ('user', 'score')

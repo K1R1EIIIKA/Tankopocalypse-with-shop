@@ -24,6 +24,8 @@ namespace Lab_2.Scripts.Api
         {
             private const string URL = "http://localhost:8000/api/account/user-info/";
             
+            public static bool IsAuthorized { get; set; }
+            
             public static async UniTask<UserInfo> GetUserInfo()
             {
                 return await GetUserInfoAsync(URL);
@@ -52,6 +54,7 @@ namespace Lab_2.Scripts.Api
                         www.result == UnityWebRequest.Result.ProtocolError)
                     {
                         Debug.Log(www.error);
+                        IsAuthorized = false;
                         return null;
                     }
 
@@ -61,6 +64,8 @@ namespace Lab_2.Scripts.Api
                     var role = await RoleManager.GetRole(userInfoJson.Value<int>("role"));
                     var items = await UserItemManager.GetUserItems();
                     var skins = await UserSkinManager.GetUserSkins();
+                    
+                    IsAuthorized = true;
 
                     return new UserInfo
                     {

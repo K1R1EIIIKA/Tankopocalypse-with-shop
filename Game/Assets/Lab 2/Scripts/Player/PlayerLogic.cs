@@ -1,5 +1,7 @@
 using System;
 using Cinemachine;
+using Lab_2.Scripts.Api.Lab_2.Scripts;
+using Lab_2.Scripts.UI;
 using UnityEngine;
 
 namespace Lab_2.Scripts.Player
@@ -31,6 +33,10 @@ namespace Lab_2.Scripts.Player
         private void Start()
         {
             currentStats = baseStats.Clone();
+
+            Debug.Log(UserInfoManager.IsAuthorized);
+            if (UserInfoManager.IsAuthorized)
+                LoginPanel.Instance.OpenUserPanel();
         }
 
         private void Update()

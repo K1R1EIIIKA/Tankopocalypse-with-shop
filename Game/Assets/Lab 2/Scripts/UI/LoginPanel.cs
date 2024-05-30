@@ -2,7 +2,7 @@ using Lab_2.Scripts.Api;
 using Lab_2.Scripts.Api.Lab_2.Scripts;
 using TMPro;
 using UnityEngine;
-using Lab_2.Scripts.Inventory;
+using UnityEngine.SceneManagement;
 
 namespace Lab_2.Scripts.UI
 {
@@ -24,12 +24,33 @@ namespace Lab_2.Scripts.UI
                 Destroy(gameObject);
         }
 
-        private void Start()
+        private async void Start()
         {
-            OpenLoginPanel();
+            await UserInfoManager.GetUserInfo();
+            // Debug.Log(UserInfoManager.IsAuthorized);
+            // Debug.Log(PlayerPrefs.GetString("cookie"));
+            if (UserInfoManager.IsAuthorized)
+                OpenUserPanel();
+
+
+            if (SceneManager.GetActiveScene().name == "Main Menu" && UserInfoManager.IsAuthorized)
+            {
+                OpenUserPanel();
+                CloseLoginPanel();
+            }
+            else
+            {
+                OpenLoginPanel();
+                CloseUserPanel();
+            }
         }
 
-        private void OpenLoginPanel()
+        private void CloseUserPanel()
+        {
+            _userPanelUI.SetActive(false);
+        }
+
+        public void OpenLoginPanel()
         {
             _loginPanelUI.SetActive(true);
             _userPanelUI.SetActive(false);
@@ -42,9 +63,20 @@ namespace Lab_2.Scripts.UI
             Debug.Log(loginSuccess);
 
             if (loginSuccess)
+            {
                 OpenUserPanel();
+                CloseLoginPanel();
+                // MenuManager.Instance.LoadGame();
+            }
             else
                 Debug.LogError("Login failed.");
+        }
+
+        public void CloseLoginPanel()
+        {
+            _loginInputField.text = "";
+            _passwordInputField.text = "";
+            _loginPanelUI.SetActive(false);
         }
 
         public async void LogoutButton()
@@ -55,7 +87,7 @@ namespace Lab_2.Scripts.UI
                 OpenLoginPanel();
         }
 
-        private async void OpenUserPanel()
+        public async void OpenUserPanel()
         {
             await UserInfoManager.RefreshUserInfo();
 
@@ -67,11 +99,10 @@ namespace Lab_2.Scripts.UI
 
             Debug.Log("User info loaded successfully");
 
-            _loginPanelUI.SetActive(false);
+            // _loginPanelUI.SetActive(false);
             _userPanelUI.SetActive(true);
             UserPanel.Instance.SetUserData(AuthManager.Instance.UserInfoData);
             Inventory.Inventory.Instance.Init();
         }
-
     }
 }

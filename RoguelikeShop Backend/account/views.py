@@ -33,7 +33,7 @@ class UserItemListCreate(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         user = self.request.user
         user_items_data = self.request.data
-        if type(user_items_data) == QueryDict:
+        if type(user_items_data) is QueryDict:
             json_str = list(user_items_data.keys())[0]
             user_items_data = json.loads(json_str)
 
@@ -124,3 +124,20 @@ class MotherloadView(APIView):
             return Response({'message': 'Motherload added'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'User is not Crush'}, status=status.HTTP_403_FORBIDDEN)
+
+
+class UserResultsListCreate(generics.ListCreateAPIView):
+    queryset = UserResults.objects.all()
+    serializer_class = UserResultsSerializer
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.data.get('user_id')
+        score = request.data.get('score')
+
+        user = User.objects.get(id=user_id)
+        user_info = UserInfo.objects.get(user=user)
+        user_result = UserResults.objects.create(user=user, score=score)
+        user_info.results.add(user_result)
+        user_info.save()
+
+        return Response({'message': 'User result added'}, status=status.HTTP_200_OK)

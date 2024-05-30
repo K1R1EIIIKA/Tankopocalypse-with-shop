@@ -65,6 +65,7 @@ class UserInfo(models.Model):
     balance = models.DecimalField(default=0, verbose_name='Баланс', max_digits=10, decimal_places=2)
     items = models.ManyToManyField(UserItem, verbose_name='Предметы', blank=True)
     skins = models.ManyToManyField(UserSkin, verbose_name='Скины', blank=True)
+    results = models.ManyToManyField('UserResults', verbose_name='Результаты', blank=True)
 
     def __str__(self):
         return self.user.name + ' - ' + str(self.balance) + ' руб.'
@@ -72,3 +73,15 @@ class UserInfo(models.Model):
     class Meta:
         verbose_name = 'Информация о пользователе'
         verbose_name_plural = 'Информация о пользователях'
+
+
+class UserResults(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    score = models.IntegerField(verbose_name='Счет', default=0)
+
+    def __str__(self):
+        return self.user.name + ' - ' + str(self.score) + ' очков'
+
+    class Meta:
+        verbose_name = 'Результат пользователя'
+        verbose_name_plural = 'Результаты пользователей'

@@ -90,6 +90,8 @@ namespace Lab_2.Scripts.Api
                         PlayerPrefs.SetString("jwt", jwt);
                         PlayerPrefs.SetString("refreshJwt", refreshJwt);
                         PlayerPrefs.Save();
+                        
+                        UserInfoManager.IsAuthorized = true;
 
                         foreach (var header in www.GetResponseHeaders())
                         {
@@ -129,6 +131,11 @@ namespace Lab_2.Scripts.Api
                 if (www.result == UnityWebRequest.Result.Success)
                 {
                     Debug.Log("Logout successful");
+                    PlayerPrefs.DeleteKey("jwt");
+                    PlayerPrefs.DeleteKey("refreshJwt");
+                    PlayerPrefs.DeleteKey("cookie");
+                    PlayerPrefs.Save();
+                    UserInfoManager.IsAuthorized = false;
                     return true;
                 }
 

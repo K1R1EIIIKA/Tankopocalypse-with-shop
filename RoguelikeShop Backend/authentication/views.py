@@ -1,4 +1,3 @@
-import sys
 from datetime import datetime, timedelta
 
 import jwt
@@ -7,11 +6,10 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from account.models import UserInfo, Role
 from authentication.models import User
 from authentication.serializers import UserSerializer
-from account.models import UserInfo, Role
 from shop.models import Cart
-import io
 
 
 class RegisterView(APIView):

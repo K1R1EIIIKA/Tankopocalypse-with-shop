@@ -15,7 +15,6 @@ import RequireAuth from "./components/Layouts/RequireAuth.tsx";
 import Logout from "./pages/auth/Logout.tsx";
 import Register from "./pages/auth/Register/Register.tsx";
 import SkinPage from "./pages/SkinPage/SkinPage.tsx";
-import A from "./pages/a.tsx";
 import Skins from "./pages/Skins/Skins.tsx";
 
 export default function Router() {

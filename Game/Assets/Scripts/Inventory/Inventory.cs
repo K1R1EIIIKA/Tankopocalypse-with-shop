@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lab_2.Scripts.Api;
-using Lab_2.Scripts.Api.Lab_2.Scripts;
 using Lab_2.Scripts.Item;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Lab_2.Scripts.Inventory
